@@ -1,0 +1,27 @@
+{
+  "name": "BASE — IPET 258 Ing. Arteaga",
+  "short_name": "BASE",
+  "description": "Sistema escolar para IPET 258 La Base",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0f16",
+  "theme_color": "#0f1923",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "es",
+  "dir": "ltr"
+}

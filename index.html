@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0f16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BASE">
+<meta name="description" content="Sistema escolar — IPET N°258 My. Ing. Francisco de Arteaga · La Base">
+<link rel="manifest" href="manifest.json">
+<title>BASE — La Base</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#090d12;--surface:#0f1720;--surface2:#162030;--border:#1a2d44;
+    --accent:#00bfff;--red:#e02020;--accent2:#ff7043;--accent3:#69f0ae;
+    --text:#ddeeff;--text2:#6a90b0;--text3:#3a5a78;
+    --danger:#ff3d54;--warning:#ffab00;--success:#00e676;--purple:#b388ff;
+    --font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;--font-m:'Space Mono',monospace;
+    --r:12px;--r2:18px;--shadow:0 8px 32px rgba(0,0,0,.5);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+  /* SPLASH */
+  #splash{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s}
+  .splash-logo{width:130px;height:130px;object-fit:contain;animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{filter:drop-shadow(0 0 10px rgba(0,191,255,.3))}50%{filter:drop-shadow(0 0 28px rgba(0,191,255,.7))}}
+  .splash-name{font-family:var(--font-d);font-size:80px;letter-spacing:10px;color:var(--accent);text-shadow:0 0 40px rgba(0,191,255,.4);line-height:1}
+  .splash-sub{font-family:var(--font-m);font-size:9px;letter-spacing:2.5px;color:var(--text3);text-transform:uppercase;text-align:center;line-height:2}
+  .splash-bar{width:150px;height:2px;background:var(--surface2);border-radius:2px;overflow:hidden}
+  .splash-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--accent));animation:fill 1.4s ease forwards}
+  @keyframes fill{from{width:0}to{width:100%}}
+
+  /* ONBOARDING */
+  #onboarding{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:flex-start;padding:28px 18px 40px;overflow-y:auto}
+  .ob-header{display:flex;flex-direction:column;align-items:center;margin-bottom:28px}
+  .ob-logo{width:88px;height:88px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(0,191,255,.4))}
+  .ob-name{font-family:var(--font-d);font-size:60px;letter-spacing:7px;color:var(--accent);text-shadow:0 0 24px rgba(0,191,255,.3);line-height:1}
+  .ob-school{font-family:var(--font-m);font-size:8.5px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;text-align:center;line-height:1.9;margin-top:6px}
+  .ob-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;width:100%;max-width:420px;box-shadow:var(--shadow)}
+  .ob-card-title{font-family:var(--font-d);font-size:24px;letter-spacing:2px;margin-bottom:5px}
+  .ob-card-sub{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6}
+  .fl{display:block;font-size:9.5px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:7px}
+  .fi,.fs,.ft{width:100%;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:var(--font-b);font-size:15px;transition:border-color .2s,box-shadow .2s;outline:none}
+  .fi:focus,.fs:focus,.ft:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,191,255,.1)}
+  .fs{appearance:none;cursor:pointer}
+  .fg{margin-bottom:15px}
+  .fr{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .btn-p{width:100%;padding:15px;background:linear-gradient(135deg,var(--red),#ff5252);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:21px;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:4px;box-shadow:0 4px 18px rgba(224,32,32,.3)}
+  .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(224,32,32,.4)}
+
+  /* APP */
+  #app{display:none;flex-direction:column;min-height:100vh;padding-bottom:76px}
+  #app.active{display:flex}
+
+  /* HEADER */
+  .hdr{position:sticky;top:0;z-index:100;background:rgba(9,13,18,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 15px;display:flex;align-items:center;justify-content:space-between;height:58px}
+  .hdr-brand{display:flex;align-items:center;gap:9px}
+  .hdr-logo{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(0,191,255,.3))}
+  .hdr-text{font-family:var(--font-d);font-size:30px;letter-spacing:4px;color:var(--accent);text-shadow:0 0 14px rgba(0,191,255,.3)}
+  .hdr-right{display:flex;align-items:center;gap:9px}
+  .sync-row{display:flex;align-items:center;gap:4px;font-family:var(--font-m);font-size:8.5px;letter-spacing:1px;color:var(--text3)}
+  .sdot{width:6px;height:6px;border-radius:50%;background:var(--text3)}
+  .sdot.syncing{background:var(--warning);animation:blink .8s infinite}
+  .sdot.synced{background:var(--success)}
+  .sdot.error{background:var(--danger)}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .ibtn{width:35px;height:35px;background:var(--surface);border:1px solid var(--border);border-radius:50%;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;position:relative}
+  .ibtn:hover{border-color:var(--accent);color:var(--accent)}
+  .ndot{position:absolute;top:2px;right:2px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:2px solid var(--bg)}
+  .av{width:35px;height:35px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:18px;color:#fff;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
+  .av:hover{border-color:var(--accent)}
+
+  /* BOTTOM NAV */
+  .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(9,13,18,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:68px}
+  .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:3px;color:var(--text3);transition:color .2s;border:none;background:none;padding:7px 3px;position:relative}
+  .ni.active{color:var(--accent)}
+  .ni.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:2px;background:var(--accent);border-radius:0 0 3px 3px}
+  .ni svg{width:21px;height:21px}
+  .nl{font-size:9px;letter-spacing:.5px;font-weight:700;text-transform:uppercase}
+
+  /* PAGES */
+  .page{display:none;padding:16px;animation:fu .28s ease}
+  .page.active{display:block}
+  @keyframes fu{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+
+  /* SECTION HEAD */
+  .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .st{font-family:var(--font-d);font-size:28px;letter-spacing:2px}
+  .ss{font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
+  .badd{display:flex;align-items:center;gap:5px;padding:10px 13px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 2px 10px rgba(224,32,32,.25)}
+  .badd:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(224,32,32,.35)}
+  .bsm{padding:7px 13px;font-size:12px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
+  .bsm:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* CARD */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:17px;margin-bottom:13px}
+
+  /* DASHBOARD */
+  .gbanner{background:linear-gradient(135deg,var(--surface2) 0%,rgba(0,191,255,.05) 100%);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--r2);padding:19px;margin-bottom:15px;position:relative;overflow:hidden}
+  .gbanner::after{content:'✈';position:absolute;right:10px;bottom:-10px;font-size:76px;opacity:.04;line-height:1}
+  .gname{font-family:var(--font-d);font-size:30px;letter-spacing:2px}
+  .gschool{font-size:10.5px;color:var(--text3);letter-spacing:.7px;margin-top:3px;line-height:1.6}
+  .gdate{font-family:var(--font-m);font-size:10px;color:var(--accent);margin-top:7px}
+  .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+  .sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:15px 13px;text-align:center}
+  .sn{font-family:var(--font-d);font-size:40px;line-height:1;margin-bottom:2px}
+  .sl{font-size:9.5px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+  .sc.c1 .sn{color:var(--accent)}.sc.c2 .sn{color:var(--accent2)}.sc.c3 .sn{color:var(--accent3)}.sc.c4 .sn{color:var(--purple)}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:17px;margin-bottom:13px}
+  .ptitle{font-family:var(--font-d);font-size:16px;letter-spacing:2px;margin-bottom:13px;display:flex;align-items:center;gap:7px}
+  .crow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(26,45,68,.5)}
+  .crow:last-child{border-bottom:none}
+  .ct{font-family:var(--font-m);font-size:9.5px;color:var(--text3);width:42px;flex-shrink:0}
+  .cd{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  .cn{font-size:13px;font-weight:500;flex:1}
+  .cr{font-size:10px;color:var(--text3)}
+
+  /* CLOUD BAR */
+  .cbar{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;display:flex;align-items:center;gap:9px;margin-bottom:13px}
+  .cicon{font-size:17px}
+  .cinfo{flex:1}
+  .cinfo strong{display:block;font-size:12px;margin-bottom:1px}
+  .cinfo span{font-size:10px;color:var(--text3)}
+  .csbtn{padding:7px 11px;background:var(--accent);color:#000;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer}
+  .csbtn:hover{opacity:.85}
+
+  /* CALENDAR */
+  .cnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+  .cmonth{font-family:var(--font-d);font-size:24px;letter-spacing:2px}
+  .cbtn{width:32px;height:32px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+  .cbtn:hover{border-color:var(--accent);color:var(--accent)}
+  .cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:15px}
+  .cdn{text-align:center;font-size:9px;color:var(--text3);letter-spacing:1px;padding:6px 0;font-weight:700;text-transform:uppercase}
+  .cd2{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;position:relative;color:var(--text2)}
+  .cd2:hover{background:var(--surface2);color:var(--text)}
+  .cd2.today{background:var(--red);color:#fff;font-weight:700}
+  .cd2.selected{background:var(--surface2);border:2px solid var(--accent);color:var(--accent)}
+  .cd2.has-event::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+  .cd2.today.has-event::after{background:#fff}
+  .cd2.empty{pointer-events:none}
+  .ei{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid rgba(26,45,68,.5)}
+  .ei:last-child{border-bottom:none}
+  .edb{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .etitle{font-size:13px;font-weight:600;margin-bottom:3px}
+  .emeta{font-size:10px;color:var(--text3)}
+  .ebadge{font-size:8px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+  .badge-tarea{background:rgba(0,191,255,.15);color:var(--accent)}
+  .badge-examen{background:rgba(255,61,84,.15);color:var(--danger)}
+  .badge-evento{background:rgba(179,136,255,.15);color:var(--purple)}
+  .badge-otro{background:rgba(255,112,67,.12);color:var(--accent2)}
+
+  /* MATERIAS */
+  .mgrid{display:grid;gap:11px}
+  .mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .2s}
+  .mc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+  .mh{padding:15px 17px;display:flex;align-items:center;gap:11px}
+  .mico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+  .mname{font-size:14px;font-weight:600;margin-bottom:2px}
+  .mteach{font-size:10px;color:var(--text3)}
+  .mbody{padding:0 17px 15px}
+  .nr{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+  .nc{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-family:var(--font-m);font-size:11px;display:flex;align-items:center;gap:4px}
+  .nv{font-weight:700;font-size:14px}
+  .nl2{font-size:8.5px;color:var(--text3)}
+  .pd{display:flex;align-items:center;gap:7px;padding:8px 12px;background:var(--surface2);border-radius:9px}
+  .plbl{font-size:9.5px;color:var(--text3);flex:1;text-transform:uppercase;letter-spacing:1px}
+  .pval{font-family:var(--font-d);font-size:24px}
+  .pval.good{color:var(--success)}.pval.mid{color:var(--warning)}.pval.bad{color:var(--danger)}
+  .macts{display:flex;gap:6px;margin-top:9px}
+  .mb{flex:1;padding:8px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:7px;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;text-align:center}
+  .mb:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* HORARIO */
+  .dtabs{display:flex;gap:5px;margin-bottom:17px;overflow-x:auto;padding-bottom:3px}
+  .dtabs::-webkit-scrollbar{display:none}
+  .dtab{flex-shrink:0;padding:8px 13px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:11px;font-weight:600;color:var(--text2);transition:all .2s}
+  .dtab.active{background:var(--red);color:#fff;border-color:var(--red)}
+  .hslot{display:flex;gap:11px;align-items:stretch;margin-bottom:8px}
+  .htime{width:48px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-m);font-size:9px;color:var(--text3);text-align:center;line-height:1.5}
+  .hbar{width:3px;border-radius:3px;flex-shrink:0}
+  .hcont{flex:1;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r)}
+  .hmat{font-size:14px;font-weight:600;margin-bottom:3px}
+  .hinf{font-size:10px;color:var(--text3)}
+
+  /* NOTAS */
+  .nsbar{display:flex;gap:3px;height:8px;border-radius:4px;overflow:hidden;margin-bottom:7px}
+  .nsseg{border-radius:4px}
+  .nsleg{display:flex;gap:12px;flex-wrap:wrap}
+  .nsli{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)}
+  .nsdot{width:6px;height:6px;border-radius:50%}
+  .ntbl{width:100%;border-collapse:collapse}
+  .ntbl th{text-align:left;padding:8px 10px;font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;border-bottom:1px solid var(--border)}
+  .ntbl td{padding:12px 10px;border-bottom:1px solid rgba(26,45,68,.4);font-size:12px}
+  .ntbl tr:last-child td{border-bottom:none}
+  .nnum{font-family:var(--font-d);font-size:19px;font-weight:700}
+
+  /* MODAL */
+  .moverlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .3s}
+  .moverlay.open{opacity:1;pointer-events:all}
+  .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 13px 13px;width:100%;max-width:450px;max-height:88vh;overflow-y:auto;padding:22px 19px 26px;transform:translateY(26px);transition:transform .3s;position:relative}
+  .moverlay.open .modal{transform:translateY(0)}
+  .mhandle{width:34px;height:3px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+  .mtitle{font-family:var(--font-d);font-size:24px;letter-spacing:2px;margin-bottom:18px}
+  .mclose{position:absolute;top:16px;right:16px;width:28px;height:28px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+  .mclose:hover{border-color:var(--danger);color:var(--danger)}
+
+  /* NOTIF PANEL */
+  .npanel{position:fixed;top:58px;right:0;bottom:68px;width:min(330px,100vw);z-index:200;background:var(--surface);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .3s;overflow-y:auto;padding:17px}
+  .npanel.open{transform:translateX(0)}
+  .nptitle{font-family:var(--font-d);font-size:20px;letter-spacing:2px;margin-bottom:16px}
+  .nitem{padding:11px 0;border-bottom:1px solid rgba(26,45,68,.5);display:flex;gap:9px}
+  .nicon{font-size:18px;flex-shrink:0;margin-top:1px}
+  .ntext{font-size:11.5px;line-height:1.5}
+  .ntime{font-size:9.5px;color:var(--text3);margin-top:2px}
+  .nunread{background:rgba(0,191,255,.05);border-radius:7px;padding:9px;margin-bottom:3px}
+
+  /* FIREBASE SETUP */
+  .fbstep{display:flex;gap:11px;margin-bottom:14px;align-items:flex-start}
+  .fbnum{width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:15px;flex-shrink:0}
+  .fbtxt{font-size:12px;color:var(--text2);line-height:1.6;padding-top:3px}
+  .fbtxt strong{color:var(--text);display:block;margin-bottom:1px}
+  .fblink{color:var(--accent);text-decoration:none;font-size:11px}
+  .fblink:hover{text-decoration:underline}
+
+  /* UTILS */
+  .empty-s{text-align:center;padding:40px 18px;color:var(--text3)}
+  .empty-s-icon{font-size:42px;margin-bottom:9px}
+  .empty-s-text{font-size:12px;line-height:1.6}
+  .toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:10px 17px;font-size:12px;z-index:9999;opacity:0;transition:all .3s;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(min-width:600px){.sgrid{grid-template-columns:repeat(4,1fr)}.mgrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <img src="logo.png" class="splash-logo" alt="IPET 258">
+  <div class="splash-name">BASE</div>
+  <div class="splash-sub">IPET N°258 · MY. ING. FRANCISCO DE ARTEAGA<br>FUERZA AÉREA ARGENTINA · ORIENTACIÓN AERONÁUTICA</div>
+  <div class="splash-bar"><div class="splash-fill"></div></div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding">
+  <div class="ob-header">
+    <img src="logo.png" class="ob-logo" alt="Logo">
+    <div class="ob-name">BASE</div>
+    <div class="ob-school">IPET N°258 · My. Ing. Francisco de Arteaga<br>Fuerza Aérea Argentina · Orientación Aeronáutica</div>
+  </div>
+  <div class="ob-card">
+    <div class="ob-card-title">TUS DATOS</div>
+    <div class="ob-card-sub">Completá tu info una sola vez para personalizar la app.</div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Nombre</label><input class="fi" id="ob-nombre" placeholder="Tu nombre"></div>
+      <div class="fg"><label class="fl">Apellido</label><input class="fi" id="ob-apellido" placeholder="Tu apellido"></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Año</label>
+        <select class="fs" id="ob-anio"><option value="">— elegí —</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
+      </div>
+      <div class="fg"><label class="fl">División</label>
+        <select class="fs" id="ob-division"><option value="">— elegí —</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      </div>
+    </div>
+    <button class="btn-p" onclick="setupApp()">ENTRAR A BASE ✈</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header class="hdr">
+    <div class="hdr-brand">
+      <img src="logo.png" class="hdr-logo" alt="Logo">
+      <div class="hdr-text">BASE</div>
+    </div>
+    <div class="hdr-right">
+      <div class="sync-row"><div class="sdot" id="sdot"></div><span id="slbl">—</span></div>
+      <button class="ibtn" onclick="toggleNotif()">🔔<span class="ndot" id="ndot" style="display:none"></span></button>
+      <div class="av" id="av" onclick="showProfile()">?</div>
+    </div>
+  </header>
+
+  <div class="npanel" id="npanel">
+    <div class="nptitle">ALERTAS</div>
+    <div id="nlist"></div>
+  </div>
+
+  <!-- INICIO -->
+  <div id="page-home" class="page active">
+    <div class="gbanner">
+      <div class="gname" id="gname">ESTUDIANTE</div>
+      <div class="gschool" id="gschool"></div>
+      <div class="gdate" id="gdate"></div>
+    </div>
+    <div class="sgrid">
+      <div class="sc c1"><div class="sn" id="s-mat">0</div><div class="sl">Materias</div></div>
+      <div class="sc c2"><div class="sn" id="s-tar">0</div><div class="sl">Tareas</div></div>
+      <div class="sc c3"><div class="sn" id="s-exam">0</div><div class="sl">Exámenes</div></div>
+      <div class="sc c4"><div class="sn" id="s-prom">—</div><div class="sl">Promedio</div></div>
+    </div>
+    <div id="fb-bar"></div>
+    <div class="panel"><div class="ptitle">📅 HOY</div><div id="today-sched"></div></div>
+    <div class="panel"><div class="ptitle">⚡ PRÓXIMAS FECHAS</div><div id="upcoming"></div></div>
+  </div>
+
+  <!-- CALENDARIO -->
+  <div id="page-calendar" class="page">
+    <div class="sh"><div><div class="st">CALENDARIO</div><div class="ss">Novedades y tareas</div></div><button class="badd" onclick="openAddEvent()">+ Agregar</button></div>
+    <div class="card">
+      <div class="cnav"><button class="cbtn" onclick="calPrev()">‹</button><div class="cmonth" id="cmonth"></div><button class="cbtn" onclick="calNext()">›</button></div>
+      <div class="cgrid" id="cgrid"></div>
+    </div>
+    <div class="card">
+      <div style="font-family:var(--font-d);font-size:15px;letter-spacing:2px;margin-bottom:13px;color:var(--text2)" id="csel-lbl">TODOS LOS EVENTOS</div>
+      <div id="evlist"></div>
+    </div>
+  </div>
+
+  <!-- MATERIAS -->
+  <div id="page-materias" class="page">
+    <div class="sh"><div><div class="st">MATERIAS</div><div class="ss">Y notas</div></div><button class="badd" onclick="openAddMateria()">+ Materia</button></div>
+    <div class="mgrid" id="mlist"></div>
+  </div>
+
+  <!-- HORARIO -->
+  <div id="page-horario" class="page">
+    <div class="sh"><div><div class="st">HORARIO</div><div class="ss">Semanal</div></div><button class="badd" onclick="openAddHorario()">+ Clase</button></div>
+    <div class="dtabs" id="dtabs"></div>
+    <div id="hdv"></div>
+  </div>
+
+  <!-- NOTAS -->
+  <div id="page-notas" class="page">
+    <div class="sh"><div><div class="st">NOTAS</div><div class="ss">Resumen general</div></div></div>
+    <div class="card">
+      <div style="font-family:var(--font-d);font-size:16px;letter-spacing:2px;margin-bottom:13px;color:var(--accent)">RENDIMIENTO</div>
+      <div class="nsbar" id="nsbar"></div><div class="nsleg" id="nsleg"></div>
+    </div>
+    <div class="card">
+      <table class="ntbl"><thead><tr><th>Materia</th><th>T1</th><th>T2</th><th>T3</th><th>Prom.</th></tr></thead><tbody id="ntbody"></tbody></table>
+    </div>
+  </div>
+
+  <nav class="bnav">
+    <button class="ni active" onclick="goPage('home',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nl">Inicio</span>
+    </button>
+    <button class="ni" onclick="goPage('calendar',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="nl">Calendario</span>
+    </button>
+    <button class="ni" onclick="goPage('materias',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span class="nl">Materias</span>
+    </button>
+    <button class="ni" onclick="goPage('horario',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="nl">Horario</span>
+    </button>
+    <button class="ni" onclick="goPage('notas',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="nl">Notas</span>
+    </button>
+  </nav>
+</div>
+
+<!-- MODALS -->
+<div class="moverlay" id="m-event">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-event')">×</button>
+    <div class="mtitle">NUEVO EVENTO</div>
+    <div class="fg"><label class="fl">Título</label><input class="fi" id="ev-titulo" placeholder="Ej: Entrega TP Física"></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Fecha</label><input class="fi" id="ev-fecha" type="date"></div>
+      <div class="fg"><label class="fl">Tipo</label><select class="fs" id="ev-tipo"><option value="tarea">📝 Tarea</option><option value="examen">📋 Examen</option><option value="evento">📅 Evento</option><option value="otro">🔔 Otro</option></select></div>
+    </div>
+    <div class="fg"><label class="fl">Materia (opcional)</label><select class="fs" id="ev-mat"></select></div>
+    <div class="fg"><label class="fl">Descripción</label><textarea class="ft fi" id="ev-desc" rows="3" placeholder="Detalles..."></textarea></div>
+    <button class="btn-p" onclick="saveEvent()">GUARDAR EVENTO</button>
+  </div>
+</div>
+
+<div class="moverlay" id="m-materia">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-materia')">×</button>
+    <div class="mtitle">NUEVA MATERIA</div>
+    <div class="fg"><label class="fl">Nombre</label><input class="fi" id="mat-nombre" placeholder="Ej: Matemática"></div>
+    <div class="fg"><label class="fl">Profesor/a</label><input class="fi" id="mat-prof" placeholder="Ej: Prof. García"></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Ícono (emoji)</label><input class="fi" id="mat-icon" placeholder="📐" maxlength="4" style="font-size:19px"></div>
+      <div class="fg"><label class="fl">Color</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;padding-top:4px">
+          <div class="copt" data-c="accent" style="width:28px;height:28px;border-radius:7px;background:var(--accent);cursor:pointer;border:2px solid transparent" onclick="pickColor(this,'accent')"></div>
+          <div class="copt" data-c="red" style="width:28px;height:28px;border-radius:7px;background:var(--red);cursor:pointer;border:2px solid transparent" onclick="pickColor(this,'red')"></div>
+          <div class="copt" data-c="accent3" style="width:28px;height:28px;border-radius:7px;background:var(--accent3);cursor:pointer;border:2px solid transparent" onclick="pickColor(this,'accent3')"></div>
+          <div class="copt" data-c="purple" style="width:28px;height:28px;border-radius:7px;background:var(--purple);cursor:pointer;border:2px solid transparent" onclick="pickColor(this,'purple')"></div>
+          <div class="copt" data-c="accent2" style="width:28px;height:28px;border-radius:7px;background:var(--accent2);cursor:pointer;border:2px solid transparent" onclick="pickColor(this,'accent2')"></div>
+          <div class="copt" data-c="warning" style="width:28px;height:28px;border-radius:7px;background:var(--warning);cursor:pointer;border:2px solid transparent" onclick="pickColor(this,'warning')"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-p" onclick="saveMateria()">GUARDAR MATERIA</button>
+  </div>
+</div>
+
+<div class="moverlay" id="m-nota">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-nota')">×</button>
+    <div class="mtitle">CARGAR NOTA</div>
+    <div id="nota-mname" style="font-size:12px;color:var(--text2);margin-bottom:16px"></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Trimestre</label><select class="fs" id="nota-trim"><option value="0">1° Trimestre</option><option value="1">2° Trimestre</option><option value="2">3° Trimestre</option></select></div>
+      <div class="fg"><label class="fl">Nota (1-10)</label><input class="fi" id="nota-val" type="number" min="1" max="10" placeholder="7"></div>
+    </div>
+    <div class="fg"><label class="fl">Descripción</label><input class="fi" id="nota-desc" placeholder="Ej: Parcial unidad 1"></div>
+    <input type="hidden" id="nota-idx">
+    <button class="btn-p" onclick="saveNota()">GUARDAR NOTA</button>
+  </div>
+</div>
+
+<div class="moverlay" id="m-horario">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-horario')">×</button>
+    <div class="mtitle">AGREGAR CLASE</div>
+    <div class="fg"><label class="fl">Día</label><select class="fs" id="hor-dia"><option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option><option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option></select></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Hora inicio</label><input class="fi" id="hor-ini" type="time" value="08:00"></div>
+      <div class="fg"><label class="fl">Hora fin</label><input class="fi" id="hor-fin" type="time" value="09:30"></div>
+    </div>
+    <div class="fg"><label class="fl">Materia</label><select class="fs" id="hor-mat"></select></div>
+    <div class="fg"><label class="fl">Aula (opcional)</label><input class="fi" id="hor-aula" placeholder="Ej: Aula 5B"></div>
+    <button class="btn-p" onclick="saveHorario()">GUARDAR CLASE</button>
+  </div>
+</div>
+
+<div class="moverlay" id="m-firebase">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-firebase')">×</button>
+    <div class="mtitle">☁ NUBE FIREBASE</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.7">Seguí estos pasos para activar el backup automático gratuito con tu cuenta Google:</p>
+    <div class="fbstep"><div class="fbnum">1</div><div class="fbtxt"><strong>Creá el proyecto</strong>Entrá a <a href="https://console.firebase.google.com" target="_blank" class="fblink">console.firebase.google.com</a> → Nuevo proyecto → llamalo "base-ipet258".</div></div>
+    <div class="fbstep"><div class="fbnum">2</div><div class="fbtxt"><strong>Activá Realtime Database</strong>Menú izquierdo → Realtime Database → Crear base de datos → Modo de prueba → Listo.</div></div>
+    <div class="fbstep"><div class="fbnum">3</div><div class="fbtxt"><strong>Copiá las credenciales</strong>⚙ Configuración → Tus apps → Agregar app Web → copiá los valores de <code style="color:var(--accent);font-size:10px">firebaseConfig</code>.</div></div>
+    <div class="fg"><label class="fl">URL Realtime Database</label><input class="fi" id="fb-url" placeholder="https://base-ipet258-default-rtdb.firebaseio.com"></div>
+    <div class="fg"><label class="fl">API Key</label><input class="fi" id="fb-key" placeholder="AIzaSy..."></div>
+    <div class="fg"><label class="fl">Project ID</label><input class="fi" id="fb-pid" placeholder="base-ipet258"></div>
+    <button class="btn-p" onclick="saveFirebase()">CONECTAR FIREBASE</button>
+    <div style="text-align:center;margin-top:10px"><button class="bsm" onclick="closeM('m-firebase')">Más tarde</button></div>
+  </div>
+</div>
+
+<div class="moverlay" id="m-profile">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-profile')">×</button>
+    <div class="mtitle">MI PERFIL</div>
+    <div id="prof-content"></div>
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:7px">
+      <button class="bsm" onclick="doExport()">💾 Exportar backup local (.json)</button>
+      <button class="bsm" onclick="importData()">📂 Importar backup</button>
+      <button class="bsm" onclick="openM('m-firebase');closeM('m-profile')">☁ Configurar Firebase</button>
+      <button class="bsm" style="color:var(--danger);border-color:var(--danger)" onclick="resetApp()">🗑 Resetear app</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="loadImport(event)">
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+window._fbApp = null; window._fbDb = null;
+
+window.initFB = function(cfg) {
+  try {
+    window._fbApp = initializeApp(cfg, 'base');
+    window._fbDb = getDatabase(window._fbApp);
+    setSS('synced','Conectado');
+    return true;
+  } catch(e) { setSS('error','Error'); return false; }
+};
+
+window.fbWrite = async function(data) {
+  if (!window._fbDb) return;
+  const uid = data.perfil ? (data.perfil.nombre+'_'+data.perfil.apellido).toLowerCase().replace(/\s+/g,'_') : 'alumno';
+  try {
+    setSS('syncing','Guardando...');
+    await set(ref(window._fbDb, 'base/'+uid), JSON.parse(JSON.stringify(data)));
+    setSS('synced','Guardado ✓');
+  } catch(e) { setSS('error','Sin nube'); }
+};
+
+function setSS(state, label) {
+  const d=document.getElementById('sdot'), l=document.getElementById('slbl');
+  if(d){d.className='sdot '+state}
+  if(l){l.textContent=label}
+}
+</script>
+
+<script>
+const CMAP = {accent:'#00bfff',red:'#e02020',accent2:'#ff7043',accent3:'#69f0ae',purple:'#b388ff',warning:'#ffab00'};
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+let db = {perfil:null,materias:[],eventos:[],horario:[],fbCfg:null};
+let calY=new Date().getFullYear(), calM=new Date().getMonth(), calSel=null;
+let horDay=0, selColor='accent';
+
+function init() {
+  try { const s=localStorage.getItem('base_v3'); if(s) db=JSON.parse(s); } catch(e){}
+  setTimeout(()=>{
+    const sp=document.getElementById('splash');
+    sp.style.opacity='0';
+    setTimeout(()=>{
+      sp.style.display='none';
+      if(db.perfil){ startApp(); if(db.fbCfg) window.initFB(db.fbCfg); }
+      else { document.getElementById('onboarding').style.display='flex'; }
+    },500);
+  },1900);
+  updateDate(); setInterval(updateDate,60000);
+}
+
+function save() {
+  localStorage.setItem('base_v3',JSON.stringify(db));
+  if(window.fbWrite) window.fbWrite(db);
+}
+
+function updateDate(){
+  const n=new Date();
+  const ds=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const el=document.getElementById('gdate');
+  if(el) el.textContent=`${ds[n.getDay()]} ${n.getDate()} de ${MESES[n.getMonth()]} ${n.getFullYear()}`;
+}
+
+/* FIREBASE */
+function saveFirebase(){
+  const url=document.getElementById('fb-url').value.trim();
+  const key=document.getElementById('fb-key').value.trim();
+  const pid=document.getElementById('fb-pid').value.trim();
+  if(!url||!key||!pid){showToast('⚠ Completá todos los campos');return}
+  const cfg={apiKey:key,projectId:pid,databaseURL:url,authDomain:pid+'.firebaseapp.com',storageBucket:pid+'.appspot.com'};
+  if(window.initFB(cfg)){
+    db.fbCfg=cfg; save(); closeM('m-firebase'); renderFBBar();
+    showToast('☁ Firebase conectado');
+  } else { showToast('⚠ Error al conectar. Revisá las credenciales.'); }
+}
+
+function renderFBBar(){
+  const el=document.getElementById('fb-bar'); if(!el) return;
+  if(db.fbCfg){
+    el.innerHTML=`<div class="cbar"><div class="cicon">☁</div><div class="cinfo"><strong>Backup en la nube activo</strong><span>Firebase · sincronización automática</span></div></div>`;
+  } else {
+    el.innerHTML=`<div class="cbar"><div class="cicon">☁</div><div class="cinfo"><strong>Backup en la nube</strong><span>Activalo para no perder nada</span></div><button class="csbtn" onclick="openM('m-firebase')">Activar</button></div>`;
+  }
+}
+
+/* SETUP */
+function setupApp(){
+  const nombre=document.getElementById('ob-nombre').value.trim();
+  const apellido=document.getElementById('ob-apellido').value.trim();
+  const anio=document.getElementById('ob-anio').value;
+  const division=document.getElementById('ob-division').value;
+  if(!nombre||!apellido||!anio||!division){showToast('⚠ Completá todos los campos');return}
+  db.perfil={nombre,apellido,anio,division};
+  save(); document.getElementById('onboarding').style.display='none'; startApp();
+}
+
+function startApp(){
+  document.getElementById('app').classList.add('active');
+  renderHome(); renderCalendar(); renderMaterias(); renderHorario(); renderNotas(); renderNotifs();
+}
+
+/* NAV */
+function goPage(n,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('npanel').classList.remove('open');
+  if(n==='home') renderHome();
+  if(n==='notas') renderNotas();
+  if(n==='horario') renderHorario();
+  if(n==='calendar') renderCalendar();
+}
+
+/* HOME */
+function renderHome(){
+  if(!db.perfil) return;
+  const {nombre,apellido,anio,division}=db.perfil;
+  document.getElementById('gname').textContent=`${nombre.toUpperCase()} ${apellido.toUpperCase()}`;
+  document.getElementById('gschool').textContent=`IPET N°258 · ${anio} "${division}" · Aeronáutica · FAA`;
+  document.getElementById('av').textContent=nombre[0].toUpperCase();
+  const n0=new Date();n0.setHours(0,0,0,0);
+  document.getElementById('s-mat').textContent=db.materias.length;
+  document.getElementById('s-tar').textContent=db.eventos.filter(e=>e.tipo==='tarea'&&new Date(e.fecha)>=n0).length;
+  document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&new Date(e.fecha)>=n0).length;
+  let sum=0,cnt=0;
+  db.materias.forEach(m=>m.notas.flat().filter(n=>n).forEach(n=>{sum+=n.valor;cnt++}));
+  document.getElementById('s-prom').textContent=cnt?(sum/cnt).toFixed(1):'—';
+
+  const todayJS=new Date().getDay(), di=todayJS===0?-1:todayJS-1;
+  const slots=db.horario.filter(h=>parseInt(h.dia)===di).sort((a,b)=>a.inicio.localeCompare(b.inicio));
+  const tel=document.getElementById('today-sched');
+  if(di===-1||!slots.length){tel.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:5px 0">Sin clases hoy 🎉</div>`}
+  else tel.innerHTML=slots.map(s=>{
+    const m=db.materias.find(m=>m.id===s.materiaId);
+    const c=m?CMAP[m.color]:CMAP.accent;
+    return`<div class="crow"><div class="ct">${s.inicio}</div><div class="cd" style="background:${c}"></div><div class="cn">${m?m.nombre:'?'}</div><div class="cr">${s.aula||''}</div></div>`;
+  }).join('');
+
+  const up=db.eventos.filter(e=>new Date(e.fecha)>=n0).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,5);
+  const uel=document.getElementById('upcoming');
+  if(!up.length){uel.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:5px 0">No hay eventos próximos</div>`}
+  else{const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};const cc={tarea:'c-accent',examen:'','evento':'','otro':''};
+    uel.innerHTML=up.map(e=>{
+      const d=new Date(e.fecha+'T12:00:00'),df=Math.ceil((d-n0)/86400000);
+      const ds=df===0?'Hoy':df===1?'Mañana':`${df} días`;
+      return`<div class="crow"><div style="font-size:16px">${ic[e.tipo]||'📌'}</div><div style="flex:1"><div style="font-size:12px;font-weight:500">${e.titulo}</div><div style="font-size:9.5px;color:var(--text3)">${e.materia||''}</div></div><div style="font-size:10px;font-weight:700;font-family:var(--font-m);color:${df<=1?'var(--danger)':'var(--accent)'}">${ds}</div></div>`;
+    }).join('');}
+  renderFBBar();
+}
+
+/* CALENDAR */
+function renderCalendar(){renderCalGrid();renderEvList()}
+function renderCalGrid(){
+  const lbl=document.getElementById('cmonth');
+  if(lbl)lbl.textContent=`${MESES[calM]} ${calY}`;
+  const g=document.getElementById('cgrid'); if(!g) return;
+  const dn=['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+  let h=dn.map(d=>`<div class="cdn">${d}</div>`).join('');
+  const first=new Date(calY,calM,1).getDay(), total=new Date(calY,calM+1,0).getDate(), today=new Date();
+  for(let i=0;i<first;i++)h+=`<div class="cd2 empty"></div>`;
+  for(let d=1;d<=total;d++){
+    const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const iT=d===today.getDate()&&calM===today.getMonth()&&calY===today.getFullYear();
+    const iS=calSel===ds, hE=db.eventos.some(e=>e.fecha===ds);
+    let c='cd2';if(iT)c+=' today';else if(iS)c+=' selected';if(hE)c+=' has-event';
+    h+=`<div class="${c}" onclick="selDay('${ds}')">${d}</div>`;
+  }
+  g.innerHTML=h;
+}
+function selDay(ds){calSel=calSel===ds?null:ds;renderCalGrid();renderEvList()}
+function renderEvList(){
+  const el=document.getElementById('evlist'),lbl=document.getElementById('csel-lbl');if(!el)return;
+  let evs=calSel?db.eventos.filter(e=>e.fecha===calSel):[...db.eventos].sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  if(lbl)lbl.textContent=calSel?new Date(calSel+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase():'TODOS LOS EVENTOS';
+  if(!evs.length){el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">📭</div><div class="empty-s-text">No hay eventos</div></div>`;return}
+  const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};
+  const bg={tarea:'bg-accent',examen:'bg-danger',evento:'bg-purple',otro:'bg-warn'};
+  // using inline style for bg
+  const bgc={tarea:'rgba(0,191,255,.12)',examen:'rgba(255,61,84,.12)',evento:'rgba(179,136,255,.12)',otro:'rgba(255,112,67,.1)'};
+  el.innerHTML=evs.map((e,i)=>{
+    const d=new Date(e.fecha+'T12:00:00'),ds=d.toLocaleDateString('es-AR',{day:'numeric',month:'short'});
+    return`<div class="ei">
+      <div class="edb" style="background:${bgc[e.tipo]||bgc.otro}">${ic[e.tipo]||'📌'}</div>
+      <div style="flex:1"><div class="etitle">${e.titulo}</div><div class="emeta">${e.materia?e.materia+' · ':''}${ds}${e.desc?'<br>'+e.desc:''}</div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+        <div class="ebadge badge-${e.tipo}">${e.tipo}</div>
+        <div style="cursor:pointer;font-size:15px" onclick="delEvent(${i})">🗑</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function calPrev(){calM--;if(calM<0){calM=11;calY--;}renderCalendar()}
+function calNext(){calM++;if(calM>11){calM=0;calY++;}renderCalendar()}
+function openAddEvent(){
+  const s=document.getElementById('ev-mat');
+  s.innerHTML=`<option value="">— Sin materia —</option>`+db.materias.map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
+  document.getElementById('ev-fecha').value=calSel||new Date().toISOString().split('T')[0];
+  document.getElementById('ev-titulo').value='';document.getElementById('ev-desc').value='';
+  openM('m-event');
+}
+function saveEvent(){
+  const titulo=document.getElementById('ev-titulo').value.trim(),fecha=document.getElementById('ev-fecha').value;
+  const tipo=document.getElementById('ev-tipo').value,materia=document.getElementById('ev-mat').value;
+  const desc=document.getElementById('ev-desc').value.trim();
+  if(!titulo||!fecha){showToast('⚠ Completá título y fecha');return}
+  db.eventos.push({id:Date.now(),titulo,fecha,tipo,materia,desc});
+  save();closeM('m-event');renderCalendar();renderHome();renderNotifs();showToast('✅ Evento guardado');
+}
+function delEvent(idx){
+  const evs=calSel?db.eventos.filter(e=>e.fecha===calSel):db.eventos;
+  const ev=evs[idx];if(!confirm('¿Eliminar?'))return;
+  db.eventos=db.eventos.filter(e=>e!==ev);save();renderCalendar();renderHome();showToast('🗑 Eliminado');
+}
+
+/* MATERIAS */
+function renderMaterias(){
+  const el=document.getElementById('mlist');if(!el)return;
+  if(!db.materias.length){el.innerHTML=`<div class="empty-s" style="grid-column:1/-1"><div class="empty-s-icon">📚</div><div class="empty-s-text">Sin materias.<br>Tocá "+ Materia".</div></div>`;return}
+  el.innerHTML=db.materias.map((m,i)=>{
+    const c=CMAP[m.color]||CMAP.accent;
+    const ns=m.notas.map((t,ti)=>{const v=t.filter(n=>n);if(!v.length)return null;const p=(v.reduce((a,b)=>a+b.valor,0)/v.length).toFixed(1);return`<div class="nc"><div class="nl2">T${ti+1}</div><div class="nv" style="color:${c}">${p}</div></div>`;}).filter(Boolean).join('');
+    const all=m.notas.flat().filter(n=>n);const pg=all.length?(all.reduce((a,b)=>a+b.valor,0)/all.length).toFixed(1):'—';
+    const pn=parseFloat(pg),pc=isNaN(pn)?'':(pn>=7?'good':pn>=6?'mid':'bad');
+    return`<div class="mc">
+      <div class="mh" style="border-left:3px solid ${c}">
+        <div class="mico" style="background:${c}1a">${m.icon||'📚'}</div>
+        <div><div class="mname">${m.nombre}</div><div class="mteach">${m.profesor||'Sin docente'}</div></div>
+      </div>
+      <div class="mbody">
+        ${ns?`<div class="nr">${ns}</div>`:`<div style="font-size:10px;color:var(--text3);margin-bottom:9px">Sin notas</div>`}
+        <div class="pd"><div class="plbl">Promedio</div><div class="pval ${pc}">${pg}</div></div>
+        <div class="macts">
+          <div class="mb" onclick="openNota(${i})">+ Nota</div>
+          <div class="mb" onclick="addEvForMat('${m.nombre}')">+ Tarea</div>
+          <div class="mb" style="color:var(--danger)" onclick="delMateria(${i})">🗑</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function openNota(i){
+  document.getElementById('nota-mname').textContent='📚 '+db.materias[i].nombre;
+  document.getElementById('nota-idx').value=i;
+  document.getElementById('nota-val').value='';document.getElementById('nota-desc').value='';
+  openM('m-nota');
+}
+function saveNota(){
+  const i=parseInt(document.getElementById('nota-idx').value);
+  const t=parseInt(document.getElementById('nota-trim').value);
+  const v=parseFloat(document.getElementById('nota-val').value);
+  const d=document.getElementById('nota-desc').value.trim();
+  if(isNaN(v)||v<1||v>10){showToast('⚠ Nota entre 1 y 10');return}
+  db.materias[i].notas[t].push({valor:v,desc:d,fecha:new Date().toISOString().split('T')[0]});
+  save();closeM('m-nota');renderMaterias();renderNotas();renderHome();showToast('✅ Nota guardada');
+}
+function delMateria(i){
+  if(!confirm(`¿Eliminar "${db.materias[i].nombre}"?`))return;
+  db.materias.splice(i,1);save();renderMaterias();renderNotas();renderHorario();renderHome();showToast('🗑 Eliminado');
+}
+function openAddMateria(){
+  selColor='accent';
+  document.querySelectorAll('.copt').forEach(e=>e.style.borderColor='transparent');
+  const f=document.querySelector('.copt[data-c="accent"]');if(f)f.style.borderColor='#fff';
+  ['mat-nombre','mat-prof','mat-icon'].forEach(id=>document.getElementById(id).value='');
+  openM('m-materia');
+}
+function pickColor(el,c){document.querySelectorAll('.copt').forEach(e=>e.style.borderColor='transparent');el.style.borderColor='#fff';selColor=c}
+function saveMateria(){
+  const nombre=document.getElementById('mat-nombre').value.trim();
+  const profesor=document.getElementById('mat-prof').value.trim();
+  const icon=document.getElementById('mat-icon').value.trim()||'📚';
+  if(!nombre){showToast('⚠ Escribí el nombre');return}
+  if(db.materias.find(m=>m.nombre.toLowerCase()===nombre.toLowerCase())){showToast('⚠ Ya existe');return}
+  db.materias.push({id:'m'+Date.now(),nombre,profesor,icon,color:selColor,notas:[[],[],[]]});
+  save();closeM('m-materia');renderMaterias();renderNotas();renderHome();showToast('✅ Materia agregada');
+}
+function addEvForMat(n){
+  const s=document.getElementById('ev-mat');
+  s.innerHTML=`<option value="">—</option>`+db.materias.map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
+  s.value=n;document.getElementById('ev-fecha').value=new Date().toISOString().split('T')[0];openM('m-event');
+}
+
+/* HORARIO */
+function renderHorario(){
+  const t=document.getElementById('dtabs');if(!t)return;
+  t.innerHTML=DIAS.map((d,i)=>`<div class="dtab ${i===horDay?'active':''}" onclick="setHorDay(${i})">${d}</div>`).join('');
+  renderHorarioDay();
+}
+function setHorDay(i){horDay=i;renderHorario()}
+function renderHorarioDay(){
+  const el=document.getElementById('hdv');if(!el)return;
+  const slots=db.horario.filter(h=>parseInt(h.dia)===horDay).sort((a,b)=>a.inicio.localeCompare(b.inicio));
+  if(!slots.length){el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">😴</div><div class="empty-s-text">Sin clases este día</div></div>`;return}
+  el.innerHTML=slots.map((s,i)=>{
+    const m=db.materias.find(m=>m.id===s.materiaId);const c=m?CMAP[m.color]:CMAP.accent;
+    return`<div class="hslot">
+      <div class="htime">${s.inicio}<br>${s.fin}</div>
+      <div class="hbar" style="background:${c}"></div>
+      <div class="hcont"><div class="hmat">${m?m.nombre:'?'}</div><div class="hinf">${m?(m.profesor||''):''}${s.aula?' · '+s.aula:''}</div></div>
+      <div style="display:flex;align-items:center;padding-left:8px;cursor:pointer;color:var(--text3)" onclick="delSlot(${i})">🗑</div>
+    </div>`;
+  }).join('');
+}
+function openAddHorario(){
+  if(!db.materias.length){showToast('⚠ Primero agregá materias');return}
+  document.getElementById('hor-mat').innerHTML=db.materias.map(m=>`<option value="${m.id}">${m.nombre}</option>`).join('');
+  document.getElementById('hor-dia').value=horDay;openM('m-horario');
+}
+function saveHorario(){
+  const dia=document.getElementById('hor-dia').value;
+  const inicio=document.getElementById('hor-ini').value;
+  const fin=document.getElementById('hor-fin').value;
+  const materiaId=document.getElementById('hor-mat').value;
+  const aula=document.getElementById('hor-aula').value.trim();
+  if(!inicio||!fin||!materiaId){showToast('⚠ Completá los campos');return}
+  db.horario.push({dia,inicio,fin,materiaId,aula});
+  save();closeM('m-horario');renderHorario();renderHome();showToast('✅ Clase agregada');
+}
+function delSlot(i){
+  const sl=db.horario.filter(h=>parseInt(h.dia)===horDay);
+  db.horario=db.horario.filter(h=>h!==sl[i]);save();renderHorario();
+}
+
+/* NOTAS */
+function renderNotas(){
+  const tb=document.getElementById('ntbody');if(!tb)return;
+  if(!db.materias.length){tb.innerHTML=`<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:26px">Sin materias</td></tr>`;return}
+  tb.innerHTML=db.materias.map(m=>{
+    const ts=m.notas.map(t=>{const v=t.filter(n=>n);if(!v.length)return`<td style="color:var(--text3)">—</td>`;const p=(v.reduce((a,b)=>a+b.valor,0)/v.length).toFixed(1);const n=parseFloat(p);const c=n>=7?'var(--success)':n>=6?'var(--warning)':'var(--danger)';return`<td><span class="nnum" style="color:${c}">${p}</span></td>`;});
+    const all=m.notas.flat().filter(n=>n);const pg=all.length?(all.reduce((a,b)=>a+b.valor,0)/all.length).toFixed(1):'—';const pn=parseFloat(pg);const pc=isNaN(pn)?'var(--text3)':pn>=7?'var(--success)':pn>=6?'var(--warning)':'var(--danger)';
+    return`<tr><td><span style="font-size:14px">${m.icon}</span> ${m.nombre}</td>${ts.join('')}<td><span class="nnum" style="color:${pc}">${pg}</span></td></tr>`;
+  }).join('');
+  const bar=document.getElementById('nsbar'),leg=document.getElementById('nsleg');
+  if(bar){bar.innerHTML=db.materias.map(m=>{const a=m.notas.flat().filter(n=>n);const p=a.length?a.reduce((x,b)=>x+b.valor,0)/a.length:0;const c=CMAP[m.color]||CMAP.accent;return`<div class="nsseg" style="flex:${(p/10*100)||1};background:${c};opacity:${p>0?1:.15}"></div>`;}).join('');}
+  if(leg){leg.innerHTML=db.materias.map(m=>`<div class="nsli"><div class="nsdot" style="background:${CMAP[m.color]||CMAP.accent}"></div>${m.nombre}</div>`).join('');}
+}
+
+/* NOTIFS */
+function renderNotifs(){
+  const el=document.getElementById('nlist');if(!el)return;
+  const n0=new Date();n0.setHours(0,0,0,0);
+  const up=db.eventos.filter(e=>{const d=new Date(e.fecha+'T12:00:00');return Math.ceil((d-n0)/86400000)>=0&&Math.ceil((d-n0)/86400000)<=7}).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  const nd=document.getElementById('ndot');if(nd)nd.style.display=up.length?'block':'none';
+  if(!up.length){el.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:18px 0;text-align:center">Sin alertas ✓</div>`;return}
+  const ic={tarea:'📝',examen:'🚨',evento:'📅',otro:'🔔'};
+  el.innerHTML=up.map(e=>{const d=new Date(e.fecha+'T12:00:00');const n0b=new Date();n0b.setHours(0,0,0,0);const df=Math.ceil((d-n0b)/86400000);const ds=df===0?'¡Hoy!':df===1?'Mañana':`En ${df} días`;return`<div class="nitem ${df<=1?'nunread':''}"><div class="nicon">${ic[e.tipo]||'📌'}</div><div><div class="ntext"><strong>${e.titulo}</strong>${e.materia?' · '+e.materia:''}</div><div class="ntime">${ds} · ${d.toLocaleDateString('es-AR',{day:'numeric',month:'short'})}</div></div></div>`;}).join('');
+}
+function toggleNotif(){document.getElementById('npanel').classList.toggle('open')}
+
+/* PROFILE */
+function showProfile(){
+  if(!db.perfil)return;
+  const {nombre,apellido,anio,division}=db.perfil;
+  document.getElementById('prof-content').innerHTML=`
+    <div style="text-align:center;margin-bottom:18px">
+      <img src="logo.png" style="width:60px;height:60px;object-fit:contain;margin-bottom:8px">
+      <div style="font-family:var(--font-d);font-size:24px;letter-spacing:2px">${nombre.toUpperCase()} ${apellido.toUpperCase()}</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px">${anio} "${division}" · Aeronáutica</div>
+      <div style="font-size:10px;color:var(--red);margin-top:2px">IPET N°258 · Fuerza Aérea Argentina</div>
+    </div>
+    <div class="cbar"><div class="cicon">${db.fbCfg?'☁✓':'☁'}</div><div class="cinfo"><strong>Backup en la nube</strong><span>${db.fbCfg?'Firebase activo':'Sin configurar'}</span></div></div>`;
+  openM('m-profile');
+}
+
+/* EXPORT/IMPORT */
+function doExport(){
+  const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=`BASE_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();URL.revokeObjectURL(u);closeM('m-profile');showToast('💾 Backup descargado');
+}
+function importData(){document.getElementById('import-file').click()}
+function loadImport(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.perfil){showToast('⚠ Archivo inválido');return}db=d;save();closeM('m-profile');startApp();showToast('✅ Datos importados');}catch(err){showToast('⚠ Error al leer')}};
+  r.readAsText(f);
+}
+function resetApp(){if(!confirm('⚠ ¿Seguro? Se borrarán TODOS los datos.'))return;localStorage.removeItem('base_v3');location.reload()}
+
+/* MODALS */
+function openM(id){document.getElementById(id).classList.add('open')}
+function closeM(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.moverlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open')}));
+
+/* TOAST */
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+
+/* SW */
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+init();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(registration) {
+        console.log('Service Worker registrado correctamente');
+      })
+      .catch(function(error) {
+        console.log('Error registrando Service Worker:', error);
+      });
+  });
+}
+</script>
+</body>
+</html>
