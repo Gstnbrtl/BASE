@@ -630,7 +630,11 @@ function renderCalGrid(){
   for(let d=1;d<=total;d++){
     const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const iT=d===today.getDate()&&calM===today.getMonth()&&calY===today.getFullYear();
+<<<<<<< HEAD
     const iS = calSel === ds, hE = db.eventos.some(e => e.fecha && e.fecha.startsWith(ds));
+=======
+    const iS=calSel===ds, hE=db.eventos.some(e=>e.fecha===ds);
+>>>>>>> 92acfeece401de3a04952a62dcd969b1997c68eb
     let c='cd2';if(iT)c+=' today';else if(iS)c+=' selected';if(hE)c+=' has-event';
     h+=`<div class="${c}" onclick="selDay('${ds}')">${d}</div>`;
   }
