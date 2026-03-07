@@ -139,8 +139,11 @@
   .cd2:hover{background:var(--surface2);color:var(--text)}
   .cd2.today{background:var(--red);color:#fff;font-weight:700}
   .cd2.selected{background:var(--surface2);border:2px solid var(--accent);color:var(--accent)}
-  .cd2.has-event::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
-  .cd2.today.has-event::after{background:#fff}
+  .cd2.has-event::after{display:none}
+  .cd2.today.has-event::after{display:none}
+  .cd2{flex-direction:column;gap:1px}
+  .ev-dot{font-size:7px;color:var(--accent);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;line-height:1.2;padding:0 2px}
+  .cd2.today .ev-dot{color:#fff;opacity:.9}
   .cd2.empty{pointer-events:none}
   .ei{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid rgba(26,45,68,.5)}
   .ei:last-child{border-bottom:none}
@@ -630,45 +633,40 @@ function renderCalGrid(){
   for(let d=1;d<=total;d++){
     const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const iT=d===today.getDate()&&calM===today.getMonth()&&calY===today.getFullYear();
-    const iS = calSel === ds, hE = db.eventos.some(e => e.fecha && e.fecha.startsWith(ds));
+    const iS=calSel===ds;
+    const dayEvs=db.eventos.filter(e=>e.fecha&&e.fecha===ds);
+    const hE=dayEvs.length>0;
     let c='cd2';if(iT)c+=' today';else if(iS)c+=' selected';if(hE)c+=' has-event';
-    h+=`<div class="${c}" onclick="selDay('${ds}')">${d}</div>`;
+    const evLabels=dayEvs.slice(0,2).map(e=>`<div class="ev-dot">${e.titulo}</div>`).join('');
+    const more=dayEvs.length>2?`<div class="ev-dot">+${dayEvs.length-2}</div>`:'';
+    h+=`<div class="${c}" onclick="selDay('${ds}')">${d}${evLabels}${more}</div>`;
   }
   g.innerHTML=h;
 }
 function selDay(ds){calSel=calSel===ds?null:ds;renderCalGrid();renderEvList()}
 function renderEvList(){
   const el=document.getElementById('evlist'),lbl=document.getElementById('csel-lbl');if(!el)return;
-  let evs;
-  if(calSel){
-    evs=db.eventos.filter(e=>e.fecha===calSel).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-    if(lbl)lbl.textContent=new Date(calSel+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
-  } else {
-    const mesStr=`${calY}-${String(calM+1).padStart(2,'0')}`;
-    evs=db.eventos.filter(e=>e.fecha&&e.fecha.startsWith(mesStr)).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-    if(lbl)lbl.textContent=`EVENTOS DE ${MESES[calM].toUpperCase()} ${calY}`;
-  }
-  if(!evs.length){
-    const msg=calSel?'No hay eventos este día':'No hay eventos este mes';
-    el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">📭</div><div class="empty-s-text">${msg}</div></div>`;return;
-  }
+  let evs=calSel?db.eventos.filter(e=>e.fecha===calSel):[...db.eventos].sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  if(lbl)lbl.textContent=calSel?new Date(calSel+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase():'TODOS LOS EVENTOS';
+  if(!evs.length){el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">📭</div><div class="empty-s-text">No hay eventos</div></div>`;return}
   const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};
+  const bg={tarea:'bg-accent',examen:'bg-danger',evento:'bg-purple',otro:'bg-warn'};
+  // using inline style for bg
   const bgc={tarea:'rgba(0,191,255,.12)',examen:'rgba(255,61,84,.12)',evento:'rgba(179,136,255,.12)',otro:'rgba(255,112,67,.1)'};
-  el.innerHTML=evs.map((e)=>{
+  el.innerHTML=evs.map((e,i)=>{
     const d=new Date(e.fecha+'T12:00:00'),ds=d.toLocaleDateString('es-AR',{day:'numeric',month:'short'});
-    const eid=e.id||(e.fecha+e.titulo);
     return`<div class="ei">
       <div class="edb" style="background:${bgc[e.tipo]||bgc.otro}">${ic[e.tipo]||'📌'}</div>
       <div style="flex:1"><div class="etitle">${e.titulo}</div><div class="emeta">${e.materia?e.materia+' · ':''}${ds}${e.desc?'<br>'+e.desc:''}</div></div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
         <div class="ebadge badge-${e.tipo}">${e.tipo}</div>
-        <div style="cursor:pointer;font-size:15px" onclick="delEvent('${eid}')">🗑</div>
+        <div style="cursor:pointer;font-size:15px" onclick="delEvent(${i})">🗑</div>
       </div>
     </div>`;
   }).join('');
 }
-function calPrev(){calM--;if(calM<0){calM=11;calY--;}calSel=null;renderCalendar()}
-function calNext(){calM++;if(calM>11){calM=0;calY++;}calSel=null;renderCalendar()}
+function calPrev(){calM--;if(calM<0){calM=11;calY--;}renderCalendar()}
+function calNext(){calM++;if(calM>11){calM=0;calY++;}renderCalendar()}
 function openAddEvent(){
   const s=document.getElementById('ev-mat');
   s.innerHTML=`<option value="">— Sin materia —</option>`+db.materias.map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
@@ -684,9 +682,9 @@ function saveEvent(){
   db.eventos.push({id:Date.now(),titulo,fecha,tipo,materia,desc});
   save();closeM('m-event');renderCalendar();renderHome();renderNotifs();showToast('✅ Evento guardado');
 }
-function delEvent(eid){
-  const ev=db.eventos.find(e=>String(e.id||e.fecha+e.titulo)===String(eid));
-  if(!ev||!confirm('¿Eliminar?'))return;
+function delEvent(idx){
+  const evs=calSel?db.eventos.filter(e=>e.fecha===calSel):db.eventos;
+  const ev=evs[idx];if(!confirm('¿Eliminar?'))return;
   db.eventos=db.eventos.filter(e=>e!==ev);save();renderCalendar();renderHome();showToast('🗑 Eliminado');
 }
 
