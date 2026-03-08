@@ -37,7 +37,7 @@ self.addEventListener('notificationclick', (e) => {
 });
 
 // ── CACHE ──
-const CACHE_NAME = 'base-v3.1';
+const CACHE_NAME = 'base-v4.0';
 const STATIC_ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

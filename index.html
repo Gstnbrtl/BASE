@@ -359,15 +359,10 @@
 
   <div id="page-horario" class="page">
     <div class="sh"><div><div class="st">HORARIO</div><div class="ss">Semanal</div></div><button class="badd" onclick="openAddHorario()">+ Clase</button></div>
-    <!-- GRILLA RESUMEN -->
-    <div class="card" style="padding:14px" id="horario-grid-wrap">
-      <div style="font-family:var(--font-d);font-size:16px;letter-spacing:2px;color:var(--text2);margin-bottom:12px">VISTA SEMANAL</div>
-      <div id="horario-grid"></div>
-    </div>
-    <!-- DETALLE DÍA -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="dtabs" id="dtabs" style="padding:14px 14px 0;margin-bottom:0"></div>
-      <div id="hdv" style="padding:14px"></div>
+    <div id="horario-grid-wrap"></div>
+    <div class="card" style="margin-top:12px">
+      <div class="dtabs" id="dtabs"></div>
+      <div id="hdv"></div>
     </div>
   </div>
 
@@ -1054,39 +1049,42 @@ function renderHorario(){
 }
 function setHorDay(i){horDay=i;renderHorario()}
 
-// Pastel versions of CMAP colors
-const CMAP_PASTEL = {
-  accent:'#4fa3d1', red:'#d95f5f', accent2:'#d98060',
-  accent3:'#4ab894', purple:'#8b7bd4', warning:'#d4a043'
+const CMAP_P = {
+  accent:'#5ba8d4', red:'#d96060', accent2:'#d98560',
+  accent3:'#4dbf96', purple:'#8b7bd4', warning:'#d4a540'
 };
 
 function renderHorarioGrid(){
-  const el=document.getElementById('horario-grid');if(!el)return;
+  const wrap=document.getElementById('horario-grid-wrap');if(!wrap)return;
   const dias=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-  let html='<div class="hgrid-wrap"><div class="hgrid">';
+  // Build header
+  let head='<div class="hg-head">';
+  dias.forEach(d=>{ head+=`<div class="hg-dh">${d.substring(0,3)}</div>`; });
+  head+='</div>';
+  // Build columns
+  let body='<div class="hg-body">';
   for(let dia=0;dia<5;dia++){
     const slots=db.horario.filter(h=>parseInt(h.dia)===dia);
     const merged=mergeSlots(slots);
-    html+=`<div class="hgrid-day"><div class="hgrid-dayhdr">${dias[dia].substring(0,3)}</div>`;
+    body+=`<div class="hg-col">`;
     if(!merged.length){
-      html+=`<div class="hgrid-empty">—</div>`;
+      body+=`<div class="hg-empty">—</div>`;
     } else {
       merged.forEach(s=>{
         const mat=db.materias.find(m=>m.id===s.materiaId);
-        const c=CMAP_PASTEL[mat?.color||'accent']||CMAP_PASTEL.accent;
-        const nombre=mat?mat.nombre:'?';
-        const minH=44+(s.modulos-1)*18;
-        html+=`<div class="hgrid-block" style="background:${c};min-height:${minH}px">
-          <div class="hgrid-block-name">${nombre}</div>
-          <div class="hgrid-block-time">${s.inicio}–${s.fin}</div>
-          ${s.modulos>1?`<div class="hgrid-block-mods">${s.modulos} mód.</div>`:''}
+        const c=CMAP_P[mat?.color||'accent']||CMAP_P.accent;
+        const minH=46+(s.modulos-1)*20;
+        body+=`<div class="hg-block" style="background:${c};min-height:${minH}px">
+          <div class="hg-bn">${mat?mat.nombre:'?'}</div>
+          <div class="hg-bt">${s.inicio}–${s.fin}</div>
+          ${s.modulos>1?`<div class="hg-bm">${s.modulos} mód.</div>`:''}
         </div>`;
       });
     }
-    html+='</div>';
+    body+='</div>';
   }
-  html+='</div></div>';
-  el.innerHTML=html;
+  body+='</div>';
+  wrap.innerHTML=`<div class="hg">${head}${body}</div>`;
 }
 
 function renderHorarioDay(){
