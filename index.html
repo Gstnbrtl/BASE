@@ -726,7 +726,7 @@ function renderHome(){
   document.getElementById('s-tar').textContent=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).length;
   document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&new Date(e.fecha+'T12:00:00')>=n0).length;
   let sum=0,cnt=0;
-  db.materias.forEach(m=>m.notas.flat().filter(n=>n).forEach(n=>{sum+=n.valor;cnt++}));
+  db.materias.forEach(m=>(m.notas||[]).flat().filter(n=>n).forEach(n=>{sum+=n.valor;cnt++}));
   document.getElementById('s-prom').textContent=cnt?(sum/cnt).toFixed(1):'—';
   const todayJS=new Date().getDay(), di=todayJS===0?-1:todayJS-1;
   const slots=db.horario.filter(h=>parseInt(h.dia)===di).sort((a,b)=>a.inicio.localeCompare(b.inicio));
