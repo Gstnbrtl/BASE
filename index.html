@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0a0f16">
+<meta name="theme-color" content="#f0f4f8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BASE">
@@ -14,12 +14,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#090d12;--surface:#0f1720;--surface2:#162030;--border:#1a2d44;
-    --accent:#00bfff;--red:#e02020;--accent2:#ff7043;--accent3:#69f0ae;
-    --text:#ddeeff;--text2:#6a90b0;--text3:#3a5a78;
-    --danger:#ff3d54;--warning:#ffab00;--success:#00e676;--purple:#b388ff;
+    --bg:#f0f4f8;--surface:#ffffff;--surface2:#e8eef5;--border:#d0dbe8;
+    --accent:#1a7fd4;--red:#d63031;--accent2:#e17055;--accent3:#00b894;
+    --text:#1a2636;--text2:#4a6080;--text3:#8aa0b8;
+    --danger:#d63031;--warning:#e67e22;--success:#00b894;--purple:#6c5ce7;
     --font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;--font-m:'Space Mono',monospace;
-    --r:12px;--r2:18px;--shadow:0 8px 32px rgba(0,0,0,.5);
+    --r:12px;--r2:18px;--shadow:0 4px 20px rgba(0,0,0,.08);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{font-family:var(--font-b);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
@@ -27,8 +27,8 @@
   /* SPLASH */
   #splash{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s}
   .splash-logo{width:130px;height:130px;object-fit:contain;animation:pulse 1.8s ease-in-out infinite}
-  @keyframes pulse{0%,100%{filter:drop-shadow(0 0 10px rgba(0,191,255,.3))}50%{filter:drop-shadow(0 0 28px rgba(0,191,255,.7))}}
-  .splash-name{font-family:var(--font-d);font-size:80px;letter-spacing:10px;color:var(--accent);text-shadow:0 0 40px rgba(0,191,255,.4);line-height:1}
+  @keyframes pulse{0%,100%{filter:drop-shadow(0 0 8px rgba(26,127,212,.2))}50%{filter:drop-shadow(0 0 16px rgba(26,127,212,.4))}}
+  .splash-name{font-family:var(--font-d);font-size:80px;letter-spacing:10px;color:var(--accent);line-height:1}
   .splash-sub{font-family:var(--font-m);font-size:9px;letter-spacing:2.5px;color:var(--text3);text-transform:uppercase;text-align:center;line-height:2}
   .splash-bar{width:150px;height:2px;background:var(--surface2);border-radius:2px;overflow:hidden}
   .splash-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--accent));animation:fill 1.4s ease forwards}
@@ -37,8 +37,8 @@
   /* LOGIN */
   #login-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px 40px;overflow-y:auto}
   .login-header{display:flex;flex-direction:column;align-items:center;margin-bottom:32px}
-  .login-logo{width:88px;height:88px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(0,191,255,.4))}
-  .login-name{font-family:var(--font-d);font-size:60px;letter-spacing:7px;color:var(--accent);text-shadow:0 0 24px rgba(0,191,255,.3);line-height:1}
+  .login-logo{width:88px;height:88px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 0 8px rgba(26,127,212,.2))}
+  .login-name{font-family:var(--font-d);font-size:60px;letter-spacing:7px;color:var(--accent);line-height:1}
   .login-school{font-family:var(--font-m);font-size:8.5px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;text-align:center;line-height:1.9;margin-top:6px}
   .login-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;width:100%;max-width:400px;box-shadow:var(--shadow)}
   .login-title{font-family:var(--font-d);font-size:26px;letter-spacing:2px;margin-bottom:5px}
@@ -69,8 +69,8 @@
   .fs{appearance:none;cursor:pointer}
   .fg{margin-bottom:15px}
   .fr{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-  .btn-p{width:100%;padding:15px;background:linear-gradient(135deg,var(--red),#ff5252);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:21px;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:4px;box-shadow:0 4px 18px rgba(224,32,32,.3)}
-  .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(224,32,32,.4)}
+  .btn-p{width:100%;padding:15px;background:linear-gradient(135deg,var(--red),#e84545);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:21px;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:4px;box-shadow:0 4px 18px rgba(214,48,49,.2)}
+  .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(214,48,49,.3)}
   .btn-p:disabled{opacity:.5;cursor:not-allowed;transform:none}
   .bsm{padding:7px 13px;font-size:12px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
   .bsm:hover{border-color:var(--accent);color:var(--accent)}
@@ -78,10 +78,10 @@
   /* APP */
   #app{display:none;flex-direction:column;min-height:100vh;padding-bottom:76px}
   #app.active{display:flex}
-  .hdr{position:sticky;top:0;z-index:100;background:rgba(9,13,18,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 15px;display:flex;align-items:center;justify-content:space-between;height:58px}
+  .hdr{position:sticky;top:0;z-index:100;background:rgba(240,244,248,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 15px;display:flex;align-items:center;justify-content:space-between;height:58px}
   .hdr-brand{display:flex;align-items:center;gap:9px}
-  .hdr-logo{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(0,191,255,.3))}
-  .hdr-text{font-family:var(--font-d);font-size:30px;letter-spacing:4px;color:var(--accent);text-shadow:0 0 14px rgba(0,191,255,.3)}
+  .hdr-logo{width:34px;height:34px;object-fit:contain}
+  .hdr-text{font-family:var(--font-d);font-size:30px;letter-spacing:4px;color:var(--accent)}
   .hdr-right{display:flex;align-items:center;gap:9px}
   .sync-row{display:flex;align-items:center;gap:4px;font-family:var(--font-m);font-size:8.5px;letter-spacing:1px;color:var(--text3)}
   .sdot{width:6px;height:6px;border-radius:50%;background:var(--text3)}
@@ -94,7 +94,7 @@
   .ndot{position:absolute;top:2px;right:2px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:2px solid var(--bg)}
   .av{width:35px;height:35px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:18px;color:#fff;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
   .av:hover{border-color:var(--accent)}
-  .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(9,13,18,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:68px}
+  .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(240,244,248,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:68px}
   .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:3px;color:var(--text3);transition:color .2s;border:none;background:none;padding:7px 3px;position:relative}
   .ni.active{color:var(--accent)}
   .ni.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:2px;background:var(--accent);border-radius:0 0 3px 3px}
@@ -106,11 +106,11 @@
   .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
   .st{font-family:var(--font-d);font-size:28px;letter-spacing:2px}
   .ss{font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
-  .badd{display:flex;align-items:center;gap:5px;padding:10px 13px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 2px 10px rgba(224,32,32,.25)}
-  .badd:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(224,32,32,.35)}
+  .badd{display:flex;align-items:center;gap:5px;padding:10px 13px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 2px 10px rgba(26,127,212,.2)}
+  .badd:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,127,212,.3)}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:17px;margin-bottom:13px}
-  .gbanner{background:linear-gradient(135deg,var(--surface2) 0%,rgba(0,191,255,.05) 100%);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--r2);padding:19px;margin-bottom:15px;position:relative;overflow:hidden}
-  .gbanner::after{content:'✈';position:absolute;right:10px;bottom:-10px;font-size:76px;opacity:.04;line-height:1}
+  .gbanner{background:linear-gradient(135deg,#ffffff 0%,#eaf3fc 100%);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:var(--r2);padding:19px;margin-bottom:15px;position:relative;overflow:hidden}
+  .gbanner::after{content:'✈';position:absolute;right:10px;bottom:-10px;font-size:76px;opacity:.06;line-height:1}
   .gname{font-family:var(--font-d);font-size:30px;letter-spacing:2px}
   .gschool{font-size:10.5px;color:var(--text3);letter-spacing:.7px;margin-top:3px;line-height:1.6}
   .gdate{font-family:var(--font-m);font-size:10px;color:var(--accent);margin-top:7px}
@@ -138,7 +138,7 @@
   .cd2{display:flex;flex-direction:column;align-items:center;padding:6px 2px 5px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;position:relative;color:var(--text2);min-height:38px}
   .cd2:hover{background:var(--surface2);color:var(--text)}
   .cd2.today{background:var(--red);color:#fff;font-weight:700}
-  .cd2.selected{background:rgba(0,191,255,.1);border:2px solid var(--accent);color:var(--accent)}
+  .cd2.selected{background:rgba(26,127,212,.1);border:2px solid var(--accent);color:var(--accent)}
   .cd2.has-event::after{display:none}
   .cd2.empty{pointer-events:none;opacity:0}
   .cd2-num{line-height:1;margin-bottom:3px}
@@ -172,7 +172,7 @@
   /* MATERIAS */
   .mgrid{display:grid;gap:11px}
   .mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .2s}
-  .mc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+  .mc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
   .mh{padding:15px 17px;display:flex;align-items:center;gap:11px}
   .mico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
   .mname{font-size:14px;font-weight:600;margin-bottom:2px}
@@ -215,7 +215,7 @@
   .nnum{font-family:var(--font-d);font-size:19px;font-weight:700}
 
   /* MODAL */
-  .moverlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .3s}
+  .moverlay{position:fixed;inset:0;z-index:500;background:rgba(26,38,54,.5);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .3s}
   .moverlay.open{opacity:1;pointer-events:all}
   .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 13px 13px;width:100%;max-width:450px;max-height:88vh;overflow-y:auto;padding:22px 19px 26px;transform:translateY(26px);transition:transform .3s;position:relative}
   .moverlay.open .modal{transform:translateY(0)}
@@ -225,20 +225,20 @@
   .mclose:hover{border-color:var(--danger);color:var(--danger)}
 
   /* NOTIF */
-  .npanel{position:fixed;top:58px;right:0;bottom:68px;width:min(330px,100vw);z-index:200;background:var(--surface);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .3s;overflow-y:auto;padding:17px}
+  .npanel{position:fixed;top:58px;right:0;bottom:68px;width:min(330px,100vw);z-index:200;background:var(--surface);border-left:1px solid var(--border);box-shadow:-4px 0 20px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .3s;overflow-y:auto;padding:17px}
   .npanel.open{transform:translateX(0)}
   .nptitle{font-family:var(--font-d);font-size:20px;letter-spacing:2px;margin-bottom:16px}
   .nitem{padding:11px 0;border-bottom:1px solid rgba(26,45,68,.5);display:flex;gap:9px}
   .nicon{font-size:18px;flex-shrink:0;margin-top:1px}
   .ntext{font-size:11.5px;line-height:1.5}
   .ntime{font-size:9.5px;color:var(--text3);margin-top:2px}
-  .nunread{background:rgba(0,191,255,.05);border-radius:7px;padding:9px;margin-bottom:3px}
+  .nunread{background:rgba(26,127,212,.06);border-radius:7px;padding:9px;margin-bottom:3px}
 
   /* UTILS */
   .empty-s{text-align:center;padding:40px 18px;color:var(--text3)}
   .empty-s-icon{font-size:42px;margin-bottom:9px}
   .empty-s-text{font-size:12px;line-height:1.6}
-  .toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:10px 17px;font-size:12px;z-index:9999;opacity:0;transition:all .3s;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+  .toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(14px);background:#1a2636;color:#f0f4f8;border:none;border-radius:9px;padding:10px 17px;font-size:12px;z-index:9999;opacity:0;transition:all .3s;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.2)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   @media(min-width:600px){.sgrid{grid-template-columns:repeat(4,1fr)}.mgrid{grid-template-columns:1fr 1fr}}
 </style>
@@ -444,6 +444,29 @@
   </div>
 </div>
 
+<div class="moverlay" id="m-edit-materia">
+  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-edit-materia')">×</button>
+    <div class="mtitle">EDITAR MATERIA</div>
+    <div class="fg"><label class="fl">Nombre</label><input class="fi" id="edit-mat-nombre" placeholder="Ej: Matemática"></div>
+    <div class="fg"><label class="fl">Profesor/a</label><input class="fi" id="edit-mat-prof" placeholder="Ej: Prof. García"></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Ícono (emoji)</label><input class="fi" id="edit-mat-icon" placeholder="📐" maxlength="4" style="font-size:19px"></div>
+      <div class="fg"><label class="fl">Color</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;padding-top:4px">
+          <div class="copt2" data-c="accent" style="width:28px;height:28px;border-radius:7px;background:var(--accent);cursor:pointer;border:2px solid transparent" onclick="pickColor2(this,'accent')"></div>
+          <div class="copt2" data-c="red" style="width:28px;height:28px;border-radius:7px;background:var(--red);cursor:pointer;border:2px solid transparent" onclick="pickColor2(this,'red')"></div>
+          <div class="copt2" data-c="accent3" style="width:28px;height:28px;border-radius:7px;background:var(--accent3);cursor:pointer;border:2px solid transparent" onclick="pickColor2(this,'accent3')"></div>
+          <div class="copt2" data-c="purple" style="width:28px;height:28px;border-radius:7px;background:var(--purple);cursor:pointer;border:2px solid transparent" onclick="pickColor2(this,'purple')"></div>
+          <div class="copt2" data-c="accent2" style="width:28px;height:28px;border-radius:7px;background:var(--accent2);cursor:pointer;border:2px solid transparent" onclick="pickColor2(this,'accent2')"></div>
+          <div class="copt2" data-c="warning" style="width:28px;height:28px;border-radius:7px;background:var(--warning);cursor:pointer;border:2px solid transparent" onclick="pickColor2(this,'warning')"></div>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="edit-mat-idx">
+    <button class="btn-p" onclick="saveEditMateria()">GUARDAR CAMBIOS</button>
+  </div>
+</div>
+
 <div class="moverlay" id="m-horario">
   <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-horario')">×</button>
     <div class="mtitle">AGREGAR CLASE</div>
@@ -553,7 +576,7 @@ window.dispatchEvent(new Event('fbReady'));
 </script>
 
 <script>
-const CMAP = {accent:'#00bfff',red:'#e02020',accent2:'#ff7043',accent3:'#69f0ae',purple:'#b388ff',warning:'#ffab00'};
+const CMAP = {accent:'#1a7fd4',red:'#d63031',accent2:'#e17055',accent3:'#00b894',purple:'#6c5ce7',warning:'#e67e22'};
 const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const ADMIN_USER = 'admin';
@@ -562,7 +585,7 @@ const ADMIN_PASS = 'ipet258admin';
 let db = {materias:[],eventos:[],horario:[]};
 let currentUser = null;
 let calY=new Date().getFullYear(), calM=new Date().getMonth(), calSel=null;
-let horDay=0, selColor='accent';
+let horDay=0, selColor='accent', selColor2='accent';
 
 function init() {
   if (window._fbReady) afterFbReady();
@@ -756,7 +779,7 @@ function renderCalGrid(){
   const dn=['D','L','M','X','J','V','S'];
   let h=dn.map(d=>`<div class="cdn">${d}</div>`).join('');
   const first=new Date(calY,calM,1).getDay(), total=new Date(calY,calM+1,0).getDate(), today=new Date();
-  const pipColors={tarea:'#00bfff',examen:'#ff3d54',evento:'#b388ff',otro:'#ff7043'};
+  const pipColors={tarea:'#1a7fd4',examen:'#d63031',evento:'#6c5ce7',otro:'#e17055'};
   for(let i=0;i<first;i++)h+=`<div class="cd2 empty"></div>`;
   for(let d=1;d<=total;d++){
     const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -876,6 +899,7 @@ function renderMaterias(){
         <div class="macts">
           <div class="mb" onclick="openNota(${i})">+ Nota</div>
           <div class="mb" onclick="addEvForMat('${m.nombre}')">+ Tarea</div>
+          <div class="mb" onclick="openEditMateria(${i})">✏️ Editar</div>
           <div class="mb" style="color:var(--danger)" onclick="delMateria(${i})">🗑</div>
         </div>
       </div>
@@ -908,6 +932,34 @@ function openAddMateria(){
   ['mat-nombre','mat-prof','mat-icon'].forEach(id=>document.getElementById(id).value='');
   openM('m-materia');
 }
+function openEditMateria(i){
+  const m=db.materias[i];
+  document.getElementById('edit-mat-nombre').value=m.nombre;
+  document.getElementById('edit-mat-prof').value=m.profesor||'';
+  document.getElementById('edit-mat-icon').value=m.icon||'📚';
+  document.getElementById('edit-mat-idx').value=i;
+  selColor2=m.color||'accent';
+  document.querySelectorAll('.copt2').forEach(e=>e.style.borderColor='transparent');
+  const sel=document.querySelector(`.copt2[data-c="${selColor2}"]`);
+  if(sel)sel.style.borderColor='#fff';
+  openM('m-edit-materia');
+}
+function saveEditMateria(){
+  const i=parseInt(document.getElementById('edit-mat-idx').value);
+  const nombre=document.getElementById('edit-mat-nombre').value.trim();
+  const profesor=document.getElementById('edit-mat-prof').value.trim();
+  const icon=document.getElementById('edit-mat-icon').value.trim()||'📚';
+  if(!nombre){showToast('⚠ Escribí el nombre');return}
+  const oldNombre=db.materias[i].nombre;
+  db.materias[i].nombre=nombre;
+  db.materias[i].profesor=profesor;
+  db.materias[i].icon=icon;
+  db.materias[i].color=selColor2;
+  // actualizar eventos que referencian la materia vieja
+  db.eventos.forEach(e=>{if(e.materia===oldNombre)e.materia=nombre;});
+  save();closeM('m-edit-materia');renderMaterias();renderNotas();showToast('✅ Materia actualizada');
+}
+function pickColor2(el,c){document.querySelectorAll('.copt2').forEach(e=>e.style.borderColor='transparent');el.style.borderColor='#fff';selColor2=c}
 function pickColor(el,c){document.querySelectorAll('.copt').forEach(e=>e.style.borderColor='transparent');el.style.borderColor='#fff';selColor=c}
 function saveMateria(){
   const nombre=document.getElementById('mat-nombre').value.trim();
