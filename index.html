@@ -130,30 +130,44 @@
 
   /* CALENDAR */
   .cnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
-  .cmonth{font-family:var(--font-d);font-size:24px;letter-spacing:2px}
-  .cbtn{width:32px;height:32px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+  .cmonth{font-family:var(--font-d);font-size:26px;letter-spacing:2px}
+  .cbtn{width:34px;height:34px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s}
   .cbtn:hover{border-color:var(--accent);color:var(--accent)}
-  .cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:15px}
-  .cdn{text-align:center;font-size:9px;color:var(--text3);letter-spacing:1px;padding:6px 0;font-weight:700;text-transform:uppercase}
-  .cd2{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;position:relative;color:var(--text2);gap:1px}
+  .cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px}
+  .cdn{text-align:center;font-size:9px;color:var(--text3);letter-spacing:1px;padding:7px 0;font-weight:700;text-transform:uppercase}
+  .cd2{display:flex;flex-direction:column;align-items:center;padding:6px 2px 5px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;position:relative;color:var(--text2);min-height:38px}
   .cd2:hover{background:var(--surface2);color:var(--text)}
   .cd2.today{background:var(--red);color:#fff;font-weight:700}
-  .cd2.selected{background:var(--surface2);border:2px solid var(--accent);color:var(--accent)}
+  .cd2.selected{background:rgba(0,191,255,.1);border:2px solid var(--accent);color:var(--accent)}
   .cd2.has-event::after{display:none}
-  .cd2.today.has-event::after{display:none}
-  .cd2.empty{pointer-events:none}
-  .ev-dot{font-size:12px;color:var(--accent);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;line-height:1.2;padding:0 2px}
-  .cd2.today .ev-dot{color:#fff;opacity:.9}
-  .ei{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid rgba(26,45,68,.5)}
-  .ei:last-child{border-bottom:none}
-  .edb{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-  .etitle{font-size:13px;font-weight:600;margin-bottom:3px}
-  .emeta{font-size:10px;color:var(--text3)}
-  .ebadge{font-size:8px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+  .cd2.empty{pointer-events:none;opacity:0}
+  .cd2-num{line-height:1;margin-bottom:3px}
+  .ev-pip{width:5px;height:5px;border-radius:50%;margin:1px auto;flex-shrink:0}
+  .cd2.today .ev-pip{background:#fff!important}
+
+  /* DAY DETAIL */
+  .day-detail{background:var(--surface2);border-radius:var(--r2);padding:16px;margin-top:4px;margin-bottom:13px;border:1px solid var(--border)}
+  .day-detail-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .day-detail-date{font-family:var(--font-d);font-size:22px;letter-spacing:2px;color:var(--accent)}
+  .day-detail-dow{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .ev-item{display:flex;align-items:center;gap:11px;padding:10px 12px;background:var(--surface);border-radius:10px;margin-bottom:7px;border:1px solid var(--border)}
+  .ev-item:last-child{margin-bottom:0}
+  .ev-item-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+  .ev-item-body{flex:1;min-width:0}
+  .ev-item-title{font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ev-item-meta{font-size:10px;color:var(--text3);line-height:1.5}
+  .ev-item-badge{font-size:8px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+  .ev-item-del{cursor:pointer;font-size:14px;color:var(--text3);flex-shrink:0;padding:4px}
+  .ev-item-del:hover{color:var(--danger)}
   .badge-tarea{background:rgba(0,191,255,.15);color:var(--accent)}
   .badge-examen{background:rgba(255,61,84,.15);color:var(--danger)}
   .badge-evento{background:rgba(179,136,255,.15);color:var(--purple)}
   .badge-otro{background:rgba(255,112,67,.12);color:var(--accent2)}
+
+  /* MONTH EVENT LIST */
+  .month-ev-day{margin-bottom:14px}
+  .month-ev-day-hdr{font-family:var(--font-m);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+  .no-events{text-align:center;padding:30px 18px;color:var(--text3);font-size:12px}
 
   /* MATERIAS */
   .mgrid{display:grid;gap:11px}
@@ -331,8 +345,9 @@
       <div class="cnav"><button class="cbtn" onclick="calPrev()">‹</button><div class="cmonth" id="cmonth"></div><button class="cbtn" onclick="calNext()">›</button></div>
       <div class="cgrid" id="cgrid"></div>
     </div>
+    <div id="day-detail-wrap"></div>
     <div class="card">
-      <div style="font-family:var(--font-d);font-size:15px;letter-spacing:2px;margin-bottom:13px;color:var(--text2)" id="csel-lbl">TODOS LOS EVENTOS</div>
+      <div style="font-family:var(--font-d);font-size:15px;letter-spacing:2px;margin-bottom:13px;color:var(--text2)" id="csel-lbl">EVENTOS DEL MES</div>
       <div id="evlist"></div>
     </div>
   </div>
@@ -733,57 +748,90 @@ function renderHome(){
     }).join('');}
 }
 
-function renderCalendar(){renderCalGrid();renderEvList()}
+function renderCalendar(){renderCalGrid();renderDayDetail();renderEvList()}
 function renderCalGrid(){
   const lbl=document.getElementById('cmonth');
   if(lbl)lbl.textContent=`${MESES[calM]} ${calY}`;
   const g=document.getElementById('cgrid'); if(!g) return;
-  const dn=['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+  const dn=['D','L','M','X','J','V','S'];
   let h=dn.map(d=>`<div class="cdn">${d}</div>`).join('');
   const first=new Date(calY,calM,1).getDay(), total=new Date(calY,calM+1,0).getDate(), today=new Date();
+  const pipColors={tarea:'#00bfff',examen:'#ff3d54',evento:'#b388ff',otro:'#ff7043'};
   for(let i=0;i<first;i++)h+=`<div class="cd2 empty"></div>`;
   for(let d=1;d<=total;d++){
     const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const iT=d===today.getDate()&&calM===today.getMonth()&&calY===today.getFullYear();
     const iS=calSel===ds;
     const dayEvs=db.eventos.filter(e=>e.fecha===ds);
-    const hE=dayEvs.length>0;
-    let c='cd2';if(iT)c+=' today';else if(iS)c+=' selected';if(hE)c+=' has-event';
-    const evLabels=dayEvs.slice(0,2).map(e=>`<div class="ev-dot">${e.titulo}</div>`).join('');
-    const more=dayEvs.length>2?`<div class="ev-dot">+${dayEvs.length-2}</div>`:'';
-    h+=`<div class="${c}" onclick="selDay('${ds}')">${d}${evLabels}${more}</div>`;
+    let c='cd2';if(iT)c+=' today';else if(iS)c+=' selected';if(dayEvs.length)c+=' has-event';
+    const pips=dayEvs.slice(0,3).map(e=>`<div class="ev-pip" style="background:${iT?'#fff':pipColors[e.tipo]||pipColors.otro}"></div>`).join('');
+    h+=`<div class="${c}" onclick="selDay('${ds}')"><div class="cd2-num">${d}</div>${pips}</div>`;
   }
   g.innerHTML=h;
 }
-function selDay(ds){calSel=calSel===ds?null:ds;renderCalGrid();renderEvList()}
+function selDay(ds){
+  calSel=calSel===ds?null:ds;
+  renderCalGrid();renderDayDetail();
+}
+function renderDayDetail(){
+  const wrap=document.getElementById('day-detail-wrap');if(!wrap)return;
+  if(!calSel){wrap.innerHTML='';return;}
+  const d=new Date(calSel+'T12:00:00');
+  const dow=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const evs=db.eventos.filter(e=>e.fecha===calSel).sort((a,b)=>a.tipo.localeCompare(b.tipo));
+  const ic={tarea:'📝',examen:'🚨',evento:'📅',otro:'🔔'};
+  const bgc={tarea:'rgba(0,191,255,.15)',examen:'rgba(255,61,84,.15)',evento:'rgba(179,136,255,.15)',otro:'rgba(255,112,67,.12)'};
+  const evHtml=evs.length?evs.map(e=>{
+    const eid=e.id||(e.fecha+e.titulo);
+    return`<div class="ev-item">
+      <div class="ev-item-icon" style="background:${bgc[e.tipo]||bgc.otro}">${ic[e.tipo]||'📌'}</div>
+      <div class="ev-item-body">
+        <div class="ev-item-title">${e.titulo}</div>
+        <div class="ev-item-meta">${e.materia?e.materia+' · ':''}${e.tipo}${e.desc?' · '+e.desc:''}</div>
+      </div>
+      <div class="ev-item-badge badge-${e.tipo}">${e.tipo}</div>
+      <div class="ev-item-del" onclick="delEvent('${eid}')">🗑</div>
+    </div>`;
+  }).join(''):`<div class="no-events">Sin eventos este día</div>`;
+  wrap.innerHTML=`<div class="day-detail">
+    <div class="day-detail-hdr">
+      <div>
+        <div class="day-detail-date">${dow[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}</div>
+        <div class="day-detail-dow">${evs.length?evs.length+' evento'+(evs.length>1?'s':''):'Sin eventos'}</div>
+      </div>
+      <button class="badd" onclick="openAddEvent()">+ Agregar</button>
+    </div>
+    ${evHtml}
+  </div>`;
+}
 function renderEvList(){
   const el=document.getElementById('evlist'),lbl=document.getElementById('csel-lbl');if(!el)return;
-  let evs;
-  if(calSel){
-    evs=db.eventos.filter(e=>e.fecha===calSel).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-    if(lbl)lbl.textContent=new Date(calSel+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
-  } else {
-    const mesStr=`${calY}-${String(calM+1).padStart(2,'0')}`;
-    evs=db.eventos.filter(e=>e.fecha&&e.fecha.startsWith(mesStr)).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-    if(lbl)lbl.textContent=`EVENTOS DE ${MESES[calM].toUpperCase()} ${calY}`;
-  }
-  if(!evs.length){
-    const msg=calSel?'No hay eventos este día':'No hay eventos este mes';
-    el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">📭</div><div class="empty-s-text">${msg}</div></div>`;return;
-  }
-  const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};
-  const bgc={tarea:'rgba(0,191,255,.12)',examen:'rgba(255,61,84,.12)',evento:'rgba(179,136,255,.12)',otro:'rgba(255,112,67,.1)'};
-  el.innerHTML=evs.map(e=>{
-    const d=new Date(e.fecha+'T12:00:00'),ds=d.toLocaleDateString('es-AR',{day:'numeric',month:'short'});
-    const eid=e.id||(e.fecha+e.titulo);
-    return`<div class="ei">
-      <div class="edb" style="background:${bgc[e.tipo]||bgc.otro}">${ic[e.tipo]||'📌'}</div>
-      <div style="flex:1"><div class="etitle">${e.titulo}</div><div class="emeta">${e.materia?e.materia+' · ':''}${ds}${e.desc?'<br>'+e.desc:''}</div></div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
-        <div class="ebadge badge-${e.tipo}">${e.tipo}</div>
-        <div style="cursor:pointer;font-size:15px" onclick="delEvent('${eid}')">🗑</div>
-      </div>
-    </div>`;
+  const mesStr=`${calY}-${String(calM+1).padStart(2,'0')}`;
+  const evs=db.eventos.filter(e=>e.fecha&&e.fecha.startsWith(mesStr)).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  if(lbl)lbl.textContent=`EVENTOS DE ${MESES[calM].toUpperCase()} ${calY}`;
+  if(!evs.length){el.innerHTML=`<div class="no-events">📭 Sin eventos este mes</div>`;return;}
+  // Agrupar por día
+  const byDay={};
+  evs.forEach(e=>{if(!byDay[e.fecha])byDay[e.fecha]=[];byDay[e.fecha].push(e);});
+  const ic={tarea:'📝',examen:'🚨',evento:'📅',otro:'🔔'};
+  const bgc={tarea:'rgba(0,191,255,.15)',examen:'rgba(255,61,84,.15)',evento:'rgba(179,136,255,.15)',otro:'rgba(255,112,67,.12)'};
+  const dow=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  el.innerHTML=Object.keys(byDay).map(fecha=>{
+    const d=new Date(fecha+'T12:00:00');
+    const hdr=`${dow[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+    const items=byDay[fecha].map(e=>{
+      const eid=e.id||(e.fecha+e.titulo);
+      return`<div class="ev-item">
+        <div class="ev-item-icon" style="background:${bgc[e.tipo]||bgc.otro}">${ic[e.tipo]||'📌'}</div>
+        <div class="ev-item-body">
+          <div class="ev-item-title">${e.titulo}</div>
+          <div class="ev-item-meta">${e.materia?e.materia+' · ':''}${e.tipo}${e.desc?' · '+e.desc:''}</div>
+        </div>
+        <div class="ev-item-badge badge-${e.tipo}">${e.tipo}</div>
+        <div class="ev-item-del" onclick="delEvent('${eid}')">🗑</div>
+      </div>`;
+    }).join('');
+    return`<div class="month-ev-day"><div class="month-ev-day-hdr">${hdr}</div>${items}</div>`;
   }).join('');
 }
 function calPrev(){calM--;if(calM<0){calM=11;calY--;}calSel=null;renderCalendar()}
