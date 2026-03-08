@@ -34,15 +34,35 @@
   .splash-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--accent));animation:fill 1.4s ease forwards}
   @keyframes fill{from{width:0}to{width:100%}}
 
-  /* ONBOARDING */
-  #onboarding{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:flex-start;padding:28px 18px 40px;overflow-y:auto}
-  .ob-header{display:flex;flex-direction:column;align-items:center;margin-bottom:28px}
-  .ob-logo{width:88px;height:88px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(0,191,255,.4))}
-  .ob-name{font-family:var(--font-d);font-size:60px;letter-spacing:7px;color:var(--accent);text-shadow:0 0 24px rgba(0,191,255,.3);line-height:1}
-  .ob-school{font-family:var(--font-m);font-size:8.5px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;text-align:center;line-height:1.9;margin-top:6px}
-  .ob-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;width:100%;max-width:420px;box-shadow:var(--shadow)}
-  .ob-card-title{font-family:var(--font-d);font-size:24px;letter-spacing:2px;margin-bottom:5px}
-  .ob-card-sub{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6}
+  /* LOGIN */
+  #login-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px 40px;overflow-y:auto}
+  .login-header{display:flex;flex-direction:column;align-items:center;margin-bottom:32px}
+  .login-logo{width:88px;height:88px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(0,191,255,.4))}
+  .login-name{font-family:var(--font-d);font-size:60px;letter-spacing:7px;color:var(--accent);text-shadow:0 0 24px rgba(0,191,255,.3);line-height:1}
+  .login-school{font-family:var(--font-m);font-size:8.5px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;text-align:center;line-height:1.9;margin-top:6px}
+  .login-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;width:100%;max-width:400px;box-shadow:var(--shadow)}
+  .login-title{font-family:var(--font-d);font-size:26px;letter-spacing:2px;margin-bottom:5px}
+  .login-sub{font-size:12px;color:var(--text2);margin-bottom:22px;line-height:1.6}
+  .login-error{background:rgba(255,61,84,.1);border:1px solid rgba(255,61,84,.3);border-radius:var(--r);padding:10px 13px;font-size:12px;color:var(--danger);margin-bottom:14px;display:none}
+
+  /* ADMIN */
+  #admin-panel{position:fixed;inset:0;z-index:1500;background:var(--bg);display:none;flex-direction:column;overflow:hidden}
+  .admin-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+  .admin-title{font-family:var(--font-d);font-size:26px;letter-spacing:3px;color:var(--red)}
+  .admin-sub{font-size:10px;color:var(--text3);letter-spacing:1px;margin-top:2px}
+  .admin-body{flex:1;overflow-y:auto;padding:16px}
+  .admin-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:18px;margin-bottom:14px}
+  .admin-section-title{font-family:var(--font-d);font-size:18px;letter-spacing:2px;margin-bottom:14px}
+  .user-item{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid rgba(26,45,68,.5)}
+  .user-item:last-child{border-bottom:none}
+  .user-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:17px;color:#fff;flex-shrink:0}
+  .user-info{flex:1}
+  .user-name{font-size:13px;font-weight:600}
+  .user-meta{font-size:10px;color:var(--text3);margin-top:2px}
+  .ubtn{padding:6px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;font-size:11px;color:var(--text2);cursor:pointer;transition:all .2s}
+  .ubtn.danger{color:var(--danger)}.ubtn.danger:hover{border-color:var(--danger)}
+
+  /* SHARED FORM */
   .fl{display:block;font-size:9.5px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:7px}
   .fi,.fs,.ft{width:100%;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:var(--font-b);font-size:15px;transition:border-color .2s,box-shadow .2s;outline:none}
   .fi:focus,.fs:focus,.ft:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,191,255,.1)}
@@ -51,12 +71,13 @@
   .fr{display:grid;grid-template-columns:1fr 1fr;gap:11px}
   .btn-p{width:100%;padding:15px;background:linear-gradient(135deg,var(--red),#ff5252);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:21px;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:4px;box-shadow:0 4px 18px rgba(224,32,32,.3)}
   .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(224,32,32,.4)}
+  .btn-p:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .bsm{padding:7px 13px;font-size:12px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
+  .bsm:hover{border-color:var(--accent);color:var(--accent)}
 
   /* APP */
   #app{display:none;flex-direction:column;min-height:100vh;padding-bottom:76px}
   #app.active{display:flex}
-
-  /* HEADER */
   .hdr{position:sticky;top:0;z-index:100;background:rgba(9,13,18,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 15px;display:flex;align-items:center;justify-content:space-between;height:58px}
   .hdr-brand{display:flex;align-items:center;gap:9px}
   .hdr-logo{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(0,191,255,.3))}
@@ -73,33 +94,21 @@
   .ndot{position:absolute;top:2px;right:2px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:2px solid var(--bg)}
   .av{width:35px;height:35px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:18px;color:#fff;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
   .av:hover{border-color:var(--accent)}
-
-  /* BOTTOM NAV */
-  .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(9,13,18,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:68px}
+  .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(9,13,18,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:68px}
   .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:3px;color:var(--text3);transition:color .2s;border:none;background:none;padding:7px 3px;position:relative}
   .ni.active{color:var(--accent)}
   .ni.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:2px;background:var(--accent);border-radius:0 0 3px 3px}
   .ni svg{width:21px;height:21px}
   .nl{font-size:9px;letter-spacing:.5px;font-weight:700;text-transform:uppercase}
-
-  /* PAGES */
   .page{display:none;padding:16px;animation:fu .28s ease}
   .page.active{display:block}
   @keyframes fu{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-
-  /* SECTION HEAD */
   .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
   .st{font-family:var(--font-d);font-size:28px;letter-spacing:2px}
   .ss{font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
   .badd{display:flex;align-items:center;gap:5px;padding:10px 13px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 2px 10px rgba(224,32,32,.25)}
   .badd:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(224,32,32,.35)}
-  .bsm{padding:7px 13px;font-size:12px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
-  .bsm:hover{border-color:var(--accent);color:var(--accent)}
-
-  /* CARD */
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:17px;margin-bottom:13px}
-
-  /* DASHBOARD */
   .gbanner{background:linear-gradient(135deg,var(--surface2) 0%,rgba(0,191,255,.05) 100%);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--r2);padding:19px;margin-bottom:15px;position:relative;overflow:hidden}
   .gbanner::after{content:'✈';position:absolute;right:10px;bottom:-10px;font-size:76px;opacity:.04;line-height:1}
   .gname{font-family:var(--font-d);font-size:30px;letter-spacing:2px}
@@ -119,15 +128,6 @@
   .cn{font-size:13px;font-weight:500;flex:1}
   .cr{font-size:10px;color:var(--text3)}
 
-  /* CLOUD BAR */
-  .cbar{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;display:flex;align-items:center;gap:9px;margin-bottom:13px}
-  .cicon{font-size:17px}
-  .cinfo{flex:1}
-  .cinfo strong{display:block;font-size:12px;margin-bottom:1px}
-  .cinfo span{font-size:10px;color:var(--text3)}
-  .csbtn{padding:7px 11px;background:var(--accent);color:#000;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer}
-  .csbtn:hover{opacity:.85}
-
   /* CALENDAR */
   .cnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
   .cmonth{font-family:var(--font-d);font-size:24px;letter-spacing:2px}
@@ -135,15 +135,15 @@
   .cbtn:hover{border-color:var(--accent);color:var(--accent)}
   .cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:15px}
   .cdn{text-align:center;font-size:9px;color:var(--text3);letter-spacing:1px;padding:6px 0;font-weight:700;text-transform:uppercase}
-  .cd2{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;position:relative;color:var(--text2)}
+  .cd2{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;position:relative;color:var(--text2);gap:1px}
   .cd2:hover{background:var(--surface2);color:var(--text)}
   .cd2.today{background:var(--red);color:#fff;font-weight:700}
   .cd2.selected{background:var(--surface2);border:2px solid var(--accent);color:var(--accent)}
   .cd2.has-event::after{display:none}
   .cd2.today.has-event::after{display:none}
+  .cd2.empty{pointer-events:none}
   .ev-dot{font-size:12px;color:var(--accent);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;line-height:1.2;padding:0 2px}
   .cd2.today .ev-dot{color:#fff;opacity:.9}
-  .cd2.empty{pointer-events:none}
   .ei{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid rgba(26,45,68,.5)}
   .ei:last-child{border-bottom:none}
   .edb{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
@@ -210,7 +210,7 @@
   .mclose{position:absolute;top:16px;right:16px;width:28px;height:28px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
   .mclose:hover{border-color:var(--danger);color:var(--danger)}
 
-  /* NOTIF PANEL */
+  /* NOTIF */
   .npanel{position:fixed;top:58px;right:0;bottom:68px;width:min(330px,100vw);z-index:200;background:var(--surface);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .3s;overflow-y:auto;padding:17px}
   .npanel.open{transform:translateX(0)}
   .nptitle{font-family:var(--font-d);font-size:20px;letter-spacing:2px;margin-bottom:16px}
@@ -219,14 +219,6 @@
   .ntext{font-size:11.5px;line-height:1.5}
   .ntime{font-size:9.5px;color:var(--text3);margin-top:2px}
   .nunread{background:rgba(0,191,255,.05);border-radius:7px;padding:9px;margin-bottom:3px}
-
-  /* FIREBASE SETUP */
-  .fbstep{display:flex;gap:11px;margin-bottom:14px;align-items:flex-start}
-  .fbnum{width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:15px;flex-shrink:0}
-  .fbtxt{font-size:12px;color:var(--text2);line-height:1.6;padding-top:3px}
-  .fbtxt strong{color:var(--text);display:block;margin-bottom:1px}
-  .fblink{color:var(--accent);text-decoration:none;font-size:11px}
-  .fblink:hover{text-decoration:underline}
 
   /* UTILS */
   .empty-s{text-align:center;padding:40px 18px;color:var(--text3)}
@@ -247,29 +239,55 @@
   <div class="splash-bar"><div class="splash-fill"></div></div>
 </div>
 
-<!-- ONBOARDING -->
-<div id="onboarding">
-  <div class="ob-header">
-    <img src="logo.png" class="ob-logo" alt="Logo">
-    <div class="ob-name">BASE</div>
-    <div class="ob-school">IPET N°258 · My. Ing. Francisco de Arteaga<br>Fuerza Aérea Argentina · Orientación Aeronáutica</div>
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-header">
+    <img src="logo.png" class="login-logo" alt="Logo">
+    <div class="login-name">BASE</div>
+    <div class="login-school">IPET N°258 · My. Ing. Francisco de Arteaga<br>Fuerza Aérea Argentina · Orientación Aeronáutica</div>
   </div>
-  <div class="ob-card">
-    <div class="ob-card-title">TUS DATOS</div>
-    <div class="ob-card-sub">Completá tu info una sola vez para personalizar la app.</div>
-    <div class="fr">
-      <div class="fg"><label class="fl">Nombre</label><input class="fi" id="ob-nombre" placeholder="Tu nombre"></div>
-      <div class="fg"><label class="fl">Apellido</label><input class="fi" id="ob-apellido" placeholder="Tu apellido"></div>
+  <div class="login-card">
+    <div class="login-title">INICIAR SESIÓN</div>
+    <div class="login-sub">Ingresá con tu usuario y contraseña.</div>
+    <div class="login-error" id="login-error"></div>
+    <div class="fg"><label class="fl">Usuario</label><input class="fi" id="login-user" placeholder="Ej: vicente.gomez" autocomplete="username"></div>
+    <div class="fg"><label class="fl">Contraseña</label><input class="fi" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="btn-p" id="login-btn" onclick="doLogin()">ENTRAR ✈</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div class="admin-hdr">
+    <div>
+      <div class="admin-title">⚙ ADMIN</div>
+      <div class="admin-sub">IPET N°258 · PANEL DE GESTIÓN</div>
     </div>
-    <div class="fr">
-      <div class="fg"><label class="fl">Año</label>
-        <select class="fs" id="ob-anio"><option value="">— elegí —</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
+    <button class="bsm" onclick="adminLogout()">Cerrar sesión</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-section">
+      <div class="admin-section-title">👤 CREAR USUARIO</div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Nombre</label><input class="fi" id="new-nombre" placeholder="Vicente"></div>
+        <div class="fg"><label class="fl">Apellido</label><input class="fi" id="new-apellido" placeholder="Gómez"></div>
       </div>
-      <div class="fg"><label class="fl">División</label>
-        <select class="fs" id="ob-division"><option value="">— elegí —</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      <div class="fr">
+        <div class="fg"><label class="fl">Año</label>
+          <select class="fs" id="new-anio"><option value="">— elegí —</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
+        </div>
+        <div class="fg"><label class="fl">División</label>
+          <select class="fs" id="new-division"><option value="">— elegí —</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+        </div>
       </div>
+      <div class="fg"><label class="fl">Usuario</label><input class="fi" id="new-user" placeholder="vicente.gomez"></div>
+      <div class="fg"><label class="fl">Contraseña</label><input class="fi" id="new-pass" type="text" placeholder="Mínimo 6 caracteres"></div>
+      <button class="btn-p" onclick="createUser()">CREAR USUARIO</button>
     </div>
-    <button class="btn-p" onclick="setupApp()">ENTRAR A BASE ✈</button>
+    <div class="admin-section">
+      <div class="admin-section-title">📋 USUARIOS REGISTRADOS</div>
+      <div id="users-list"><div style="color:var(--text3);font-size:12px">Cargando...</div></div>
+    </div>
   </div>
 </div>
 
@@ -281,18 +299,16 @@
       <div class="hdr-text">BASE</div>
     </div>
     <div class="hdr-right">
-      <div class="sync-row"><div class="sdot" id="sdot"></div><span id="slbl">—</span></div>
+      <div class="sync-row"><div class="sdot synced" id="sdot"></div><span id="slbl">En línea</span></div>
       <button class="ibtn" onclick="toggleNotif()">🔔<span class="ndot" id="ndot" style="display:none"></span></button>
       <div class="av" id="av" onclick="showProfile()">?</div>
     </div>
   </header>
-
   <div class="npanel" id="npanel">
     <div class="nptitle">ALERTAS</div>
     <div id="nlist"></div>
   </div>
 
-  <!-- INICIO -->
   <div id="page-home" class="page active">
     <div class="gbanner">
       <div class="gname" id="gname">ESTUDIANTE</div>
@@ -305,12 +321,10 @@
       <div class="sc c3"><div class="sn" id="s-exam">0</div><div class="sl">Exámenes</div></div>
       <div class="sc c4"><div class="sn" id="s-prom">—</div><div class="sl">Promedio</div></div>
     </div>
-    <div id="fb-bar"></div>
     <div class="panel"><div class="ptitle">📅 HOY</div><div id="today-sched"></div></div>
     <div class="panel"><div class="ptitle">⚡ PRÓXIMAS FECHAS</div><div id="upcoming"></div></div>
   </div>
 
-  <!-- CALENDARIO -->
   <div id="page-calendar" class="page">
     <div class="sh"><div><div class="st">CALENDARIO</div><div class="ss">Novedades y tareas</div></div><button class="badd" onclick="openAddEvent()">+ Agregar</button></div>
     <div class="card">
@@ -323,20 +337,17 @@
     </div>
   </div>
 
-  <!-- MATERIAS -->
   <div id="page-materias" class="page">
     <div class="sh"><div><div class="st">MATERIAS</div><div class="ss">Y notas</div></div><button class="badd" onclick="openAddMateria()">+ Materia</button></div>
     <div class="mgrid" id="mlist"></div>
   </div>
 
-  <!-- HORARIO -->
   <div id="page-horario" class="page">
     <div class="sh"><div><div class="st">HORARIO</div><div class="ss">Semanal</div></div><button class="badd" onclick="openAddHorario()">+ Clase</button></div>
     <div class="dtabs" id="dtabs"></div>
     <div id="hdv"></div>
   </div>
 
-  <!-- NOTAS -->
   <div id="page-notas" class="page">
     <div class="sh"><div><div class="st">NOTAS</div><div class="ss">Resumen general</div></div></div>
     <div class="card">
@@ -432,31 +443,12 @@
   </div>
 </div>
 
-<div class="moverlay" id="m-firebase">
-  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-firebase')">×</button>
-    <div class="mtitle">☁ NUBE FIREBASE</div>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.7">Seguí estos pasos para activar el backup automático gratuito con tu cuenta Google:</p>
-    <div class="fbstep"><div class="fbnum">1</div><div class="fbtxt"><strong>Creá el proyecto</strong>Entrá a <a href="https://console.firebase.google.com" target="_blank" class="fblink">console.firebase.google.com</a> → Nuevo proyecto → llamalo "base-ipet258".</div></div>
-    <div class="fbstep"><div class="fbnum">2</div><div class="fbtxt"><strong>Activá Realtime Database</strong>Menú izquierdo → Realtime Database → Crear base de datos → Modo de prueba → Listo.</div></div>
-    <div class="fbstep"><div class="fbnum">3</div><div class="fbtxt"><strong>Copiá las credenciales</strong>⚙ Configuración → Tus apps → Agregar app Web → copiá los valores de <code style="color:var(--accent);font-size:10px">firebaseConfig</code>.</div></div>
-    <div class="fg"><label class="fl">URL Realtime Database</label><input class="fi" id="fb-url" placeholder="https://base-ipet258-default-rtdb.firebaseio.com"></div>
-    <div class="fg"><label class="fl">API Key</label><input class="fi" id="fb-key" placeholder="AIzaSy..."></div>
-    <div class="fg"><label class="fl">Project ID</label><input class="fi" id="fb-pid" placeholder="base-ipet258"></div>
-    <button class="btn-p" onclick="saveFirebase()">CONECTAR FIREBASE</button>
-    <div style="text-align:center;margin-top:10px"><button class="bsm" onclick="closeM('m-firebase')">Más tarde</button></div>
-  </div>
-</div>
-
 <div class="moverlay" id="m-profile">
   <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeM('m-profile')">×</button>
     <div class="mtitle">MI PERFIL</div>
     <div id="prof-content"></div>
-    <div style="margin-top:16px;display:flex;flex-direction:column;gap:7px">
-      <button class="bsm" onclick="doExport()">💾 Exportar backup local (.json)</button>
-      <button class="bsm" onclick="importData()">📂 Importar backup</button>
-      <button class="bsm" onclick="openM('m-firebase');closeM('m-profile')">☁ Configurar Firebase</button>
-      <button class="bsm" style="color:var(--danger);border-color:var(--danger)" onclick="resetApp()">🗑 Resetear app</button>
-      <input type="file" id="import-file" accept=".json" style="display:none" onchange="loadImport(event)">
+    <div style="margin-top:16px">
+      <button class="bsm" style="width:100%;color:var(--danger);border-color:var(--danger)" onclick="doLogout()">🚪 Cerrar sesión</button>
     </div>
   </div>
 </div>
@@ -466,62 +458,228 @@
 <!-- FIREBASE SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-window._fbApp = null; window._fbDb = null;
-
-window.initFB = function(cfg) {
-  try {
-    window._fbApp = initializeApp(cfg, 'base');
-    window._fbDb = getDatabase(window._fbApp);
-    setSS('synced','Conectado');
-    return true;
-  } catch(e) { setSS('error','Error'); return false; }
+const firebaseConfig = {
+  apiKey: "AIzaSyC5YOMJ9RiiSgVxQYeegmmkR-wEUs11_F8",
+  authDomain: "base-ac891.firebaseapp.com",
+  databaseURL: "https://base-ac891-default-rtdb.firebaseio.com",
+  projectId: "base-ac891",
+  storageBucket: "base-ac891.firebasestorage.app",
+  messagingSenderId: "155943536020",
+  appId: "1:155943536020:web:8e31878d7a5e80dd5bfb81"
 };
 
-window.fbWrite = async function(data) {
-  if (!window._fbDb) return;
-  const uid = data.perfil ? (data.perfil.nombre+'_'+data.perfil.apellido).toLowerCase().replace(/\s+/g,'_') : 'alumno';
-  try {
-    setSS('syncing','Guardando...');
-    await set(ref(window._fbDb, 'base/'+uid), JSON.parse(JSON.stringify(data)));
-    setSS('synced','Guardado ✓');
-  } catch(e) { setSS('error','Sin nube'); }
-};
+const fbApp = initializeApp(firebaseConfig);
+const fbDb = getDatabase(fbApp);
 
 function setSS(state, label) {
   const d=document.getElementById('sdot'), l=document.getElementById('slbl');
-  if(d){d.className='sdot '+state}
-  if(l){l.textContent=label}
+  if(d) d.className='sdot '+state;
+  if(l) l.textContent=label;
 }
+
+window.fbLogin = async function(usuario, password) {
+  try {
+    const snap = await get(ref(fbDb, `usuarios/${usuario}`));
+    if (!snap.exists()) return {ok:false, msg:'Usuario no encontrado'};
+    const u = snap.val();
+    if (u.password !== password) return {ok:false, msg:'Contraseña incorrecta'};
+    return {ok:true, user:u, uid:usuario};
+  } catch(e) { return {ok:false, msg:'Error de conexión'}; }
+};
+
+window.fbCreateUser = async function(uid, userData) {
+  try {
+    const exists = await get(ref(fbDb, `usuarios/${uid}`));
+    if (exists.exists()) return {ok:false, msg:'El usuario ya existe'};
+    await set(ref(fbDb, `usuarios/${uid}`), userData);
+    await set(ref(fbDb, `datos/${uid}`), {materias:[], eventos:[], horario:[]});
+    return {ok:true};
+  } catch(e) { return {ok:false, msg:'Error al crear usuario'}; }
+};
+
+window.fbGetUsers = async function() {
+  try {
+    const snap = await get(ref(fbDb, 'usuarios'));
+    if (!snap.exists()) return [];
+    const users = [];
+    snap.forEach(child => { users.push({uid:child.key, ...child.val()}); });
+    return users;
+  } catch(e) { return []; }
+};
+
+window.fbDeleteUser = async function(uid) {
+  try {
+    await set(ref(fbDb, `usuarios/${uid}`), null);
+    await set(ref(fbDb, `datos/${uid}`), null);
+    return {ok:true};
+  } catch(e) { return {ok:false}; }
+};
+
+window.fbLoadData = async function(uid) {
+  try {
+    const snap = await get(ref(fbDb, `datos/${uid}`));
+    if (!snap.exists()) return null;
+    return snap.val();
+  } catch(e) { return null; }
+};
+
+window.fbSave = async function(uid, data) {
+  try {
+    setSS('syncing','Guardando...');
+    await set(ref(fbDb, `datos/${uid}`), JSON.parse(JSON.stringify(data)));
+    setSS('synced','Guardado ✓');
+  } catch(e) { setSS('error','Sin conexión'); }
+};
+
+window._fbReady = true;
+window.dispatchEvent(new Event('fbReady'));
 </script>
 
 <script>
 const CMAP = {accent:'#00bfff',red:'#e02020',accent2:'#ff7043',accent3:'#69f0ae',purple:'#b388ff',warning:'#ffab00'};
 const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'ipet258admin';
 
-let db = {perfil:null,materias:[],eventos:[],horario:[],fbCfg:null};
+let db = {materias:[],eventos:[],horario:[]};
+let currentUser = null;
 let calY=new Date().getFullYear(), calM=new Date().getMonth(), calSel=null;
 let horDay=0, selColor='accent';
 
 function init() {
-  try { const s=localStorage.getItem('base_v3'); if(s) db=JSON.parse(s); } catch(e){}
-  setTimeout(()=>{
-    const sp=document.getElementById('splash');
-    sp.style.opacity='0';
-    setTimeout(()=>{
-      sp.style.display='none';
-      if(db.perfil){ startApp(); if(db.fbCfg) window.initFB(db.fbCfg); }
-      else { document.getElementById('onboarding').style.display='flex'; }
-    },500);
-  },1900);
-  updateDate(); setInterval(updateDate,60000);
+  if (window._fbReady) afterFbReady();
+  else window.addEventListener('fbReady', afterFbReady);
+}
+
+function afterFbReady() {
+  setTimeout(() => {
+    const sp = document.getElementById('splash');
+    sp.style.opacity = '0';
+    setTimeout(() => {
+      sp.style.display = 'none';
+      const saved = localStorage.getItem('base_session');
+      if (saved) {
+        try {
+          const s = JSON.parse(saved);
+          if (s.user === ADMIN_USER) { showAdmin(); }
+          else { currentUser = s; loadUserData(); }
+        } catch(e) { showLogin(); }
+      } else { showLogin(); }
+    }, 500);
+  }, 1900);
+  updateDate(); setInterval(updateDate, 60000);
+}
+
+function showLogin() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('admin-panel').style.display = 'none';
+}
+
+async function doLogin() {
+  const user = document.getElementById('login-user').value.trim().toLowerCase();
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  const btn = document.getElementById('login-btn');
+  errEl.style.display = 'none';
+  if (!user || !pass) { errEl.textContent = '⚠ Completá usuario y contraseña'; errEl.style.display = 'block'; return; }
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    localStorage.setItem('base_session', JSON.stringify({user: ADMIN_USER}));
+    document.getElementById('login-screen').style.display = 'none';
+    showAdmin(); return;
+  }
+  btn.disabled = true; btn.textContent = 'VERIFICANDO...';
+  const res = await window.fbLogin(user, pass);
+  btn.disabled = false; btn.textContent = 'ENTRAR ✈';
+  if (!res.ok) { errEl.textContent = '⚠ ' + res.msg; errEl.style.display = 'block'; return; }
+  currentUser = {uid: res.uid, ...res.user};
+  localStorage.setItem('base_session', JSON.stringify(currentUser));
+  document.getElementById('login-screen').style.display = 'none';
+  await loadUserData();
+}
+
+async function loadUserData() {
+  const data = await window.fbLoadData(currentUser.uid);
+  if (data) {
+    db.materias = Array.isArray(data.materias) ? data.materias : [];
+    db.eventos = Array.isArray(data.eventos) ? data.eventos : [];
+    db.horario = Array.isArray(data.horario) ? data.horario : [];
+  }
+  startApp();
+}
+
+function doLogout() {
+  localStorage.removeItem('base_session');
+  currentUser = null;
+  db = {materias:[], eventos:[], horario:[]};
+  closeM('m-profile');
+  document.getElementById('app').classList.remove('active');
+  showLogin();
+  showToast('👋 Sesión cerrada');
 }
 
 function save() {
-  localStorage.setItem('base_v3',JSON.stringify(db));
-  if(window.fbWrite) window.fbWrite(db);
+  if (currentUser && window.fbSave) window.fbSave(currentUser.uid, db);
+}
+
+function showAdmin() {
+  document.getElementById('admin-panel').style.display = 'flex';
+  loadUsersList();
+}
+
+function adminLogout() {
+  localStorage.removeItem('base_session');
+  document.getElementById('admin-panel').style.display = 'none';
+  showLogin();
+}
+
+async function createUser() {
+  const nombre = document.getElementById('new-nombre').value.trim();
+  const apellido = document.getElementById('new-apellido').value.trim();
+  const anio = document.getElementById('new-anio').value;
+  const division = document.getElementById('new-division').value;
+  const user = document.getElementById('new-user').value.trim().toLowerCase();
+  const pass = document.getElementById('new-pass').value.trim();
+  if (!nombre||!apellido||!anio||!division||!user||!pass) { showToast('⚠ Completá todos los campos'); return; }
+  if (pass.length < 6) { showToast('⚠ Contraseña mínimo 6 caracteres'); return; }
+  if (user === ADMIN_USER) { showToast('⚠ Nombre de usuario reservado'); return; }
+  const res = await window.fbCreateUser(user, {nombre, apellido, anio, division, password: pass, usuario: user});
+  if (res.ok) {
+    showToast('✅ Usuario creado: ' + user);
+    ['new-nombre','new-apellido','new-user','new-pass'].forEach(id => document.getElementById(id).value = '');
+    loadUsersList();
+  } else { showToast('⚠ ' + res.msg); }
+}
+
+async function loadUsersList() {
+  const el = document.getElementById('users-list');
+  el.innerHTML = '<div style="color:var(--text3);font-size:12px">Cargando...</div>';
+  const users = await window.fbGetUsers();
+  if (!users.length) { el.innerHTML = '<div style="color:var(--text3);font-size:12px;padding:10px 0">No hay usuarios creados</div>'; return; }
+  el.innerHTML = users.map(u => `
+    <div class="user-item">
+      <div class="user-av">${u.nombre[0].toUpperCase()}</div>
+      <div class="user-info">
+        <div class="user-name">${u.nombre} ${u.apellido}</div>
+        <div class="user-meta">@${u.usuario} · ${u.anio} "${u.division}"</div>
+      </div>
+      <button class="ubtn danger" onclick="deleteUser('${u.uid}','${u.nombre}')">🗑</button>
+    </div>`).join('');
+}
+
+async function deleteUser(uid, nombre) {
+  if (!confirm(`¿Eliminar al usuario ${nombre}? Se borrarán todos sus datos.`)) return;
+  const res = await window.fbDeleteUser(uid);
+  if (res.ok) { showToast('🗑 Usuario eliminado'); loadUsersList(); }
+  else showToast('⚠ Error al eliminar');
+}
+
+function startApp() {
+  document.getElementById('app').classList.add('active');
+  renderHome(); renderCalendar(); renderMaterias(); renderHorario(); renderNotas(); renderNotifs();
 }
 
 function updateDate(){
@@ -531,45 +689,6 @@ function updateDate(){
   if(el) el.textContent=`${ds[n.getDay()]} ${n.getDate()} de ${MESES[n.getMonth()]} ${n.getFullYear()}`;
 }
 
-/* FIREBASE */
-function saveFirebase(){
-  const url=document.getElementById('fb-url').value.trim();
-  const key=document.getElementById('fb-key').value.trim();
-  const pid=document.getElementById('fb-pid').value.trim();
-  if(!url||!key||!pid){showToast('⚠ Completá todos los campos');return}
-  const cfg={apiKey:key,projectId:pid,databaseURL:url,authDomain:pid+'.firebaseapp.com',storageBucket:pid+'.appspot.com'};
-  if(window.initFB(cfg)){
-    db.fbCfg=cfg; save(); closeM('m-firebase'); renderFBBar();
-    showToast('☁ Firebase conectado');
-  } else { showToast('⚠ Error al conectar. Revisá las credenciales.'); }
-}
-
-function renderFBBar(){
-  const el=document.getElementById('fb-bar'); if(!el) return;
-  if(db.fbCfg){
-    el.innerHTML=`<div class="cbar"><div class="cicon">☁</div><div class="cinfo"><strong>Backup en la nube activo</strong><span>Firebase · sincronización automática</span></div></div>`;
-  } else {
-    el.innerHTML=`<div class="cbar"><div class="cicon">☁</div><div class="cinfo"><strong>Backup en la nube</strong><span>Activalo para no perder nada</span></div><button class="csbtn" onclick="openM('m-firebase')">Activar</button></div>`;
-  }
-}
-
-/* SETUP */
-function setupApp(){
-  const nombre=document.getElementById('ob-nombre').value.trim();
-  const apellido=document.getElementById('ob-apellido').value.trim();
-  const anio=document.getElementById('ob-anio').value;
-  const division=document.getElementById('ob-division').value;
-  if(!nombre||!apellido||!anio||!division){showToast('⚠ Completá todos los campos');return}
-  db.perfil={nombre,apellido,anio,division};
-  save(); document.getElementById('onboarding').style.display='none'; startApp();
-}
-
-function startApp(){
-  document.getElementById('app').classList.add('active');
-  renderHome(); renderCalendar(); renderMaterias(); renderHorario(); renderNotas(); renderNotifs();
-}
-
-/* NAV */
 function goPage(n,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
@@ -582,21 +701,18 @@ function goPage(n,btn){
   if(n==='calendar') renderCalendar();
 }
 
-/* HOME */
 function renderHome(){
-  if(!db.perfil) return;
-  const {nombre,apellido,anio,division}=db.perfil;
-  document.getElementById('gname').textContent=`${nombre.toUpperCase()} ${apellido.toUpperCase()}`;
-  document.getElementById('gschool').textContent=`IPET N°258 · ${anio} "${division}" · Aeronáutica · FAA`;
-  document.getElementById('av').textContent=nombre[0].toUpperCase();
+  if(!currentUser) return;
+  document.getElementById('gname').textContent=`${currentUser.nombre.toUpperCase()} ${currentUser.apellido.toUpperCase()}`;
+  document.getElementById('gschool').textContent=`IPET N°258 · ${currentUser.anio} "${currentUser.division}" · Aeronáutica · FAA`;
+  document.getElementById('av').textContent=currentUser.nombre[0].toUpperCase();
   const n0=new Date();n0.setHours(0,0,0,0);
   document.getElementById('s-mat').textContent=db.materias.length;
-  document.getElementById('s-tar').textContent=db.eventos.filter(e=>e.tipo==='tarea'&&new Date(e.fecha)>=n0).length;
-  document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&new Date(e.fecha)>=n0).length;
+  document.getElementById('s-tar').textContent=db.eventos.filter(e=>e.tipo==='tarea'&&new Date(e.fecha+'T12:00:00')>=n0).length;
+  document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&new Date(e.fecha+'T12:00:00')>=n0).length;
   let sum=0,cnt=0;
   db.materias.forEach(m=>m.notas.flat().filter(n=>n).forEach(n=>{sum+=n.valor;cnt++}));
   document.getElementById('s-prom').textContent=cnt?(sum/cnt).toFixed(1):'—';
-
   const todayJS=new Date().getDay(), di=todayJS===0?-1:todayJS-1;
   const slots=db.horario.filter(h=>parseInt(h.dia)===di).sort((a,b)=>a.inicio.localeCompare(b.inicio));
   const tel=document.getElementById('today-sched');
@@ -606,20 +722,17 @@ function renderHome(){
     const c=m?CMAP[m.color]:CMAP.accent;
     return`<div class="crow"><div class="ct">${s.inicio}</div><div class="cd" style="background:${c}"></div><div class="cn">${m?m.nombre:'?'}</div><div class="cr">${s.aula||''}</div></div>`;
   }).join('');
-
-  const up=db.eventos.filter(e=>new Date(e.fecha)>=n0).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,5);
+  const up=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,5);
   const uel=document.getElementById('upcoming');
   if(!up.length){uel.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:5px 0">No hay eventos próximos</div>`}
-  else{const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};const cc={tarea:'c-accent',examen:'','evento':'','otro':''};
+  else{const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};
     uel.innerHTML=up.map(e=>{
       const d=new Date(e.fecha+'T12:00:00'),df=Math.ceil((d-n0)/86400000);
       const ds=df===0?'Hoy':df===1?'Mañana':`${df} días`;
       return`<div class="crow"><div style="font-size:16px">${ic[e.tipo]||'📌'}</div><div style="flex:1"><div style="font-size:12px;font-weight:500">${e.titulo}</div><div style="font-size:9.5px;color:var(--text3)">${e.materia||''}</div></div><div style="font-size:10px;font-weight:700;font-family:var(--font-m);color:${df<=1?'var(--danger)':'var(--accent)'}">${ds}</div></div>`;
     }).join('');}
-  renderFBBar();
 }
 
-/* CALENDAR */
 function renderCalendar(){renderCalGrid();renderEvList()}
 function renderCalGrid(){
   const lbl=document.getElementById('cmonth');
@@ -633,7 +746,7 @@ function renderCalGrid(){
     const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const iT=d===today.getDate()&&calM===today.getMonth()&&calY===today.getFullYear();
     const iS=calSel===ds;
-    const dayEvs=db.eventos.filter(e=>e.fecha&&e.fecha===ds);
+    const dayEvs=db.eventos.filter(e=>e.fecha===ds);
     const hE=dayEvs.length>0;
     let c='cd2';if(iT)c+=' today';else if(iS)c+=' selected';if(hE)c+=' has-event';
     const evLabels=dayEvs.slice(0,2).map(e=>`<div class="ev-dot">${e.titulo}</div>`).join('');
@@ -645,27 +758,36 @@ function renderCalGrid(){
 function selDay(ds){calSel=calSel===ds?null:ds;renderCalGrid();renderEvList()}
 function renderEvList(){
   const el=document.getElementById('evlist'),lbl=document.getElementById('csel-lbl');if(!el)return;
-  let evs=calSel?db.eventos.filter(e=>e.fecha===calSel):[...db.eventos].sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-  if(lbl)lbl.textContent=calSel?new Date(calSel+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase():'TODOS LOS EVENTOS';
-  if(!evs.length){el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">📭</div><div class="empty-s-text">No hay eventos</div></div>`;return}
+  let evs;
+  if(calSel){
+    evs=db.eventos.filter(e=>e.fecha===calSel).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+    if(lbl)lbl.textContent=new Date(calSel+'T12:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
+  } else {
+    const mesStr=`${calY}-${String(calM+1).padStart(2,'0')}`;
+    evs=db.eventos.filter(e=>e.fecha&&e.fecha.startsWith(mesStr)).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+    if(lbl)lbl.textContent=`EVENTOS DE ${MESES[calM].toUpperCase()} ${calY}`;
+  }
+  if(!evs.length){
+    const msg=calSel?'No hay eventos este día':'No hay eventos este mes';
+    el.innerHTML=`<div class="empty-s"><div class="empty-s-icon">📭</div><div class="empty-s-text">${msg}</div></div>`;return;
+  }
   const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};
-  const bg={tarea:'bg-accent',examen:'bg-danger',evento:'bg-purple',otro:'bg-warn'};
-  // using inline style for bg
   const bgc={tarea:'rgba(0,191,255,.12)',examen:'rgba(255,61,84,.12)',evento:'rgba(179,136,255,.12)',otro:'rgba(255,112,67,.1)'};
-  el.innerHTML=evs.map((e,i)=>{
+  el.innerHTML=evs.map(e=>{
     const d=new Date(e.fecha+'T12:00:00'),ds=d.toLocaleDateString('es-AR',{day:'numeric',month:'short'});
+    const eid=e.id||(e.fecha+e.titulo);
     return`<div class="ei">
       <div class="edb" style="background:${bgc[e.tipo]||bgc.otro}">${ic[e.tipo]||'📌'}</div>
       <div style="flex:1"><div class="etitle">${e.titulo}</div><div class="emeta">${e.materia?e.materia+' · ':''}${ds}${e.desc?'<br>'+e.desc:''}</div></div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
         <div class="ebadge badge-${e.tipo}">${e.tipo}</div>
-        <div style="cursor:pointer;font-size:15px" onclick="delEvent(${i})">🗑</div>
+        <div style="cursor:pointer;font-size:15px" onclick="delEvent('${eid}')">🗑</div>
       </div>
     </div>`;
   }).join('');
 }
-function calPrev(){calM--;if(calM<0){calM=11;calY--;}renderCalendar()}
-function calNext(){calM++;if(calM>11){calM=0;calY++;}renderCalendar()}
+function calPrev(){calM--;if(calM<0){calM=11;calY--;}calSel=null;renderCalendar()}
+function calNext(){calM++;if(calM>11){calM=0;calY++;}calSel=null;renderCalendar()}
 function openAddEvent(){
   const s=document.getElementById('ev-mat');
   s.innerHTML=`<option value="">— Sin materia —</option>`+db.materias.map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
@@ -679,15 +801,14 @@ function saveEvent(){
   const desc=document.getElementById('ev-desc').value.trim();
   if(!titulo||!fecha){showToast('⚠ Completá título y fecha');return}
   db.eventos.push({id:Date.now(),titulo,fecha,tipo,materia,desc});
-  save();closeM('m-event');renderCalendar();renderHome();renderNotifs();showToast('✅ Evento guardado');
+  save();renderCalendar();renderHome();renderNotifs();closeM('m-event');showToast('✅ Evento guardado');
 }
-function delEvent(idx){
-  const evs=calSel?db.eventos.filter(e=>e.fecha===calSel):db.eventos;
-  const ev=evs[idx];if(!confirm('¿Eliminar?'))return;
+function delEvent(eid){
+  const ev=db.eventos.find(e=>String(e.id||e.fecha+e.titulo)===String(eid));
+  if(!ev||!confirm('¿Eliminar?'))return;
   db.eventos=db.eventos.filter(e=>e!==ev);save();renderCalendar();renderHome();showToast('🗑 Eliminado');
 }
 
-/* MATERIAS */
 function renderMaterias(){
   const el=document.getElementById('mlist');if(!el)return;
   if(!db.materias.length){el.innerHTML=`<div class="empty-s" style="grid-column:1/-1"><div class="empty-s-icon">📚</div><div class="empty-s-text">Sin materias.<br>Tocá "+ Materia".</div></div>`;return}
@@ -755,7 +876,6 @@ function addEvForMat(n){
   s.value=n;document.getElementById('ev-fecha').value=new Date().toISOString().split('T')[0];openM('m-event');
 }
 
-/* HORARIO */
 function renderHorario(){
   const t=document.getElementById('dtabs');if(!t)return;
   t.innerHTML=DIAS.map((d,i)=>`<div class="dtab ${i===horDay?'active':''}" onclick="setHorDay(${i})">${d}</div>`).join('');
@@ -796,7 +916,6 @@ function delSlot(i){
   db.horario=db.horario.filter(h=>h!==sl[i]);save();renderHorario();
 }
 
-/* NOTAS */
 function renderNotas(){
   const tb=document.getElementById('ntbody');if(!tb)return;
   if(!db.materias.length){tb.innerHTML=`<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:26px">Sin materias</td></tr>`;return}
@@ -810,7 +929,6 @@ function renderNotas(){
   if(leg){leg.innerHTML=db.materias.map(m=>`<div class="nsli"><div class="nsdot" style="background:${CMAP[m.color]||CMAP.accent}"></div>${m.nombre}</div>`).join('');}
 }
 
-/* NOTIFS */
 function renderNotifs(){
   const el=document.getElementById('nlist');if(!el)return;
   const n0=new Date();n0.setHours(0,0,0,0);
@@ -822,62 +940,27 @@ function renderNotifs(){
 }
 function toggleNotif(){document.getElementById('npanel').classList.toggle('open')}
 
-/* PROFILE */
 function showProfile(){
-  if(!db.perfil)return;
-  const {nombre,apellido,anio,division}=db.perfil;
+  if(!currentUser)return;
   document.getElementById('prof-content').innerHTML=`
     <div style="text-align:center;margin-bottom:18px">
       <img src="logo.png" style="width:60px;height:60px;object-fit:contain;margin-bottom:8px">
-      <div style="font-family:var(--font-d);font-size:24px;letter-spacing:2px">${nombre.toUpperCase()} ${apellido.toUpperCase()}</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:3px">${anio} "${division}" · Aeronáutica</div>
+      <div style="font-family:var(--font-d);font-size:24px;letter-spacing:2px">${currentUser.nombre.toUpperCase()} ${currentUser.apellido.toUpperCase()}</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px">${currentUser.anio} "${currentUser.division}" · Aeronáutica</div>
       <div style="font-size:10px;color:var(--red);margin-top:2px">IPET N°258 · Fuerza Aérea Argentina</div>
-    </div>
-    <div class="cbar"><div class="cicon">${db.fbCfg?'☁✓':'☁'}</div><div class="cinfo"><strong>Backup en la nube</strong><span>${db.fbCfg?'Firebase activo':'Sin configurar'}</span></div></div>`;
+      <div style="font-size:11px;color:var(--text2);margin-top:6px;font-family:var(--font-m)">@${currentUser.uid}</div>
+    </div>`;
   openM('m-profile');
 }
 
-/* EXPORT/IMPORT */
-function doExport(){
-  const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
-  const u=URL.createObjectURL(b),a=document.createElement('a');
-  a.href=u;a.download=`BASE_backup_${new Date().toISOString().split('T')[0]}.json`;
-  a.click();URL.revokeObjectURL(u);closeM('m-profile');showToast('💾 Backup descargado');
-}
-function importData(){document.getElementById('import-file').click()}
-function loadImport(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.perfil){showToast('⚠ Archivo inválido');return}db=d;save();closeM('m-profile');startApp();showToast('✅ Datos importados');}catch(err){showToast('⚠ Error al leer')}};
-  r.readAsText(f);
-}
-function resetApp(){if(!confirm('⚠ ¿Seguro? Se borrarán TODOS los datos.'))return;localStorage.removeItem('base_v3');location.reload()}
-
-/* MODALS */
 function openM(id){document.getElementById(id).classList.add('open')}
 function closeM(id){document.getElementById(id).classList.remove('open')}
 document.querySelectorAll('.moverlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open')}));
-
-/* TOAST */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 
-/* SW */
 if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 
 init();
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./sw.js')
-      .then(function(registration) {
-        console.log('Service Worker registrado correctamente');
-      })
-      .catch(function(error) {
-        console.log('Error registrando Service Worker:', error);
-      });
-  });
-}
 </script>
 </body>
 </html>
