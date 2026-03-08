@@ -906,7 +906,7 @@ function calPrev(){calM--;if(calM<0){calM=11;calY--;}calSel=null;renderCalendar(
 function calNext(){calM++;if(calM>11){calM=0;calY++;}calSel=null;renderCalendar()}
 function openAddEvent(){
   const s=document.getElementById('ev-mat');
-  s.innerHTML=`<option value="">— Sin materia —</option>`+db.materias.map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
+  s.innerHTML=`<option value="">— Sin materia —</option>`+[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
   document.getElementById('ev-fecha').value=calSel||new Date().toISOString().split('T')[0];
   document.getElementById('ev-titulo').value='';document.getElementById('ev-desc').value='';
   openM('m-event');
@@ -928,7 +928,7 @@ function delEvent(eid){
 function renderMaterias(){
   const el=document.getElementById('mlist');if(!el)return;
   if(!db.materias.length){el.innerHTML=`<div class="empty-s" style="grid-column:1/-1"><div class="empty-s-icon">📚</div><div class="empty-s-text">Sin materias.<br>Tocá "+ Materia".</div></div>`;return}
-  el.innerHTML=db.materias.map((m,i)=>{
+  el.innerHTML=[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map((m)=>{ const i=db.materias.indexOf(m);
     const c=CMAP[m.color]||CMAP.accent;
     const ns=(m.notas||[[],[],[]]).map((t,ti)=>{const v=t.filter(n=>n);if(!v.length)return null;const p=(v.reduce((a,b)=>a+b.valor,0)/v.length).toFixed(1);return`<div class="nc"><div class="nl2">T${ti+1}</div><div class="nv" style="color:${c}">${p}</div></div>`;}).filter(Boolean).join('');
     const all=(m.notas||[]).flat().filter(n=>n);const pg=all.length?(all.reduce((a,b)=>a+b.valor,0)/all.length).toFixed(1):'—';
@@ -1017,7 +1017,7 @@ function saveMateria(){
 }
 function addEvForMat(n){
   const s=document.getElementById('ev-mat');
-  s.innerHTML=`<option value="">—</option>`+db.materias.map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
+  s.innerHTML=`<option value="">—</option>`+[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(m=>`<option value="${m.nombre}">${m.nombre}</option>`).join('');
   s.value=n;document.getElementById('ev-fecha').value=new Date().toISOString().split('T')[0];openM('m-event');
 }
 
@@ -1043,7 +1043,7 @@ function renderHorarioDay(){
 }
 function openAddHorario(){
   if(!db.materias.length){showToast('⚠ Primero agregá materias');return}
-  document.getElementById('hor-mat').innerHTML=db.materias.map(m=>`<option value="${m.id}">${m.nombre}</option>`).join('');
+  document.getElementById('hor-mat').innerHTML=[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(m=>`<option value="${m.id}">${m.nombre}</option>`).join('');
   document.getElementById('hor-dia').value=horDay;openM('m-horario');
 }
 function saveHorario(){
@@ -1064,14 +1064,14 @@ function delSlot(i){
 function renderNotas(){
   const tb=document.getElementById('ntbody');if(!tb)return;
   if(!db.materias.length){tb.innerHTML=`<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:26px">Sin materias</td></tr>`;return}
-  tb.innerHTML=db.materias.map(m=>{
+  tb.innerHTML=[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(m=>{
     const ts=(m.notas||[[],[],[]]).map(t=>{const v=t.filter(n=>n);if(!v.length)return`<td style="color:var(--text3)">—</td>`;const p=(v.reduce((a,b)=>a+b.valor,0)/v.length).toFixed(1);const n=parseFloat(p);const c=n>=7?'var(--success)':n>=6?'var(--warning)':'var(--danger)';return`<td><span class="nnum" style="color:${c}">${p}</span></td>`;});
     const all=(m.notas||[]).flat().filter(n=>n);const pg=all.length?(all.reduce((a,b)=>a+b.valor,0)/all.length).toFixed(1):'—';const pn=parseFloat(pg);const pc=isNaN(pn)?'var(--text3)':pn>=7?'var(--success)':pn>=6?'var(--warning)':'var(--danger)';
     return`<tr><td><span style="font-size:14px">${m.icon}</span> ${m.nombre}</td>${ts.join('')}<td><span class="nnum" style="color:${pc}">${pg}</span></td></tr>`;
   }).join('');
   const bar=document.getElementById('nsbar'),leg=document.getElementById('nsleg');
-  if(bar){bar.innerHTML=db.materias.map(m=>{const a=(m.notas||[]).flat().filter(n=>n);const p=a.length?a.reduce((x,b)=>x+b.valor,0)/a.length:0;const c=CMAP[m.color]||CMAP.accent;return`<div class="nsseg" style="flex:${(p/10*100)||1};background:${c};opacity:${p>0?1:.15}"></div>`;}).join('');}
-  if(leg){leg.innerHTML=db.materias.map(m=>`<div class="nsli"><div class="nsdot" style="background:${CMAP[m.color]||CMAP.accent}"></div>${m.nombre}</div>`).join('');}
+  if(bar){bar.innerHTML=[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(m=>{const a=(m.notas||[]).flat().filter(n=>n);const p=a.length?a.reduce((x,b)=>x+b.valor,0)/a.length:0;const c=CMAP[m.color]||CMAP.accent;return`<div class="nsseg" style="flex:${(p/10*100)||1};background:${c};opacity:${p>0?1:.15}"></div>`;}).join('');}
+  if(leg){leg.innerHTML=[...db.materias].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(m=>`<div class="nsli"><div class="nsdot" style="background:${CMAP[m.color]||CMAP.accent}"></div>${m.nombre}</div>`).join('');}
 }
 
 function renderNotifs(){
