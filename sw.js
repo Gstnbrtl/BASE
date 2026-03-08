@@ -1,20 +1,23 @@
-const CACHE_NAME = 'base-v2.0';
+const CACHE_NAME = 'base-v3.0';
 const STATIC_ASSETS = [
+  './',
+  './index.html',
   './manifest.json',
-  './logo.png',
   './icon-192.png',
   './icon-512.png'
 ];
 
-// Al instalar, cachear solo assets estáticos (NO el index.html)
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
+    caches.open(CACHE_NAME).then(cache => {
+      return Promise.allSettled(
+        STATIC_ASSETS.map(url => cache.add(url).catch(() => {}))
+      );
+    })
   );
   self.skipWaiting();
 });
 
-// Al activar, borrar cachés viejos
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -27,12 +30,20 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // index.html: siempre buscar en red primero, caché solo si falla
+  // Firebase y Google: solo red
+  if (url.hostname.includes('firebaseio.com') ||
+      url.hostname.includes('googleapis.com') ||
+      url.hostname.includes('gstatic.com') ||
+      url.hostname.includes('fonts.goog')) {
+    e.respondWith(fetch(e.request).catch(() => new Response('', {status: 503})));
+    return;
+  }
+
+  // index.html: red primero, caché como fallback
   if (url.pathname.endsWith('/') || url.pathname.endsWith('index.html')) {
     e.respondWith(
       fetch(e.request)
         .then(res => {
-          // Guardar la versión nueva en caché
           const clone = res.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
           return res;
@@ -42,7 +53,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Assets estáticos: caché primero
+  // Resto: caché primero
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );

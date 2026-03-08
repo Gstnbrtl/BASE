@@ -558,17 +558,30 @@ window.fbDeleteUser = async function(uid) {
 window.fbLoadData = async function(uid) {
   try {
     const snap = await get(ref(fbDb, `datos/${uid}`));
-    if (!snap.exists()) return null;
-    return snap.val();
-  } catch(e) { return null; }
+    if (snap.exists()) {
+      const data = snap.val();
+      // Actualizar caché local con datos frescos de Firebase
+      try { localStorage.setItem('base_local_'+uid, JSON.stringify(data)); } catch(e) {}
+      return data;
+    }
+    // Firebase no tiene datos, intentar local
+    const local = localStorage.getItem('base_local_'+uid);
+    return local ? JSON.parse(local) : null;
+  } catch(e) {
+    // Sin conexión: usar datos locales
+    const local = localStorage.getItem('base_local_'+uid);
+    return local ? JSON.parse(local) : null;
+  }
 };
 
 window.fbSave = async function(uid, data) {
+  // Siempre guardar localmente primero
+  try { localStorage.setItem('base_local_'+uid, JSON.stringify(data)); } catch(e) {}
   try {
     setSS('syncing','Guardando...');
     await set(ref(fbDb, `datos/${uid}`), JSON.parse(JSON.stringify(data)));
     setSS('synced','Guardado ✓');
-  } catch(e) { setSS('error','Sin conexión'); }
+  } catch(e) { setSS('error','Sin conexión — guardado local'); }
 };
 
 window._fbReady = true;
