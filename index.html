@@ -299,6 +299,21 @@
       <button class="btn-p" onclick="createUser()">CREAR USUARIO</button>
     </div>
     <div class="admin-section">
+      <div class="admin-section-title">📅 HORARIO OFICIAL DEL CURSO</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:12px">El horario de un alumno se puede publicar como horario oficial del curso. Los nuevos alumnos del mismo año/división lo recibirán automáticamente al registrarse.</div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Año</label>
+          <select class="fs" id="hor-anio-src"><option value="">— elegí —</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select>
+        </div>
+        <div class="fg"><label class="fl">División</label>
+          <select class="fs" id="hor-div-src"><option value="">— elegí —</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Alumno fuente (usuario)</label><input class="fi" id="hor-uid-src" placeholder="vicente_bertola"></div>
+      <button class="btn-p" onclick="publicarHorarioOficial()">📤 PUBLICAR HORARIO OFICIAL</button>
+      <div id="hor-oficial-status" style="margin-top:10px;font-size:13px;color:var(--text3)"></div>
+    </div>
+    <div class="admin-section">
       <div class="admin-section-title">📋 USUARIOS REGISTRADOS</div>
       <div id="users-list"><div style="color:var(--text3);font-size:12px">Cargando...</div></div>
     </div>
@@ -742,10 +757,44 @@ async function createUser() {
   if (user === ADMIN_USER) { showToast('⚠ Nombre de usuario reservado'); return; }
   const res = await window.fbCreateUser(user, {nombre, apellido, anio, division, password: pass, usuario: user});
   if (res.ok) {
-    showToast('✅ Usuario creado: ' + user);
+    // Auto-copiar horario oficial del curso si existe
+    try {
+      const cursoKey = (anio + division).replace(/[^a-zA-Z0-9]/g,'_');
+      const horSnap = await get(ref(fbDb, `horarios_oficiales/${cursoKey}`));
+      if (horSnap.exists()) {
+        const horData = horSnap.val();
+        await set(ref(fbDb, `datos/${user}/horario`), horData.horario || []);
+        showToast('✅ Usuario creado con horario oficial de ' + anio + ' ' + division);
+      } else {
+        showToast('✅ Usuario creado: ' + user);
+      }
+    } catch(e) { showToast('✅ Usuario creado: ' + user); }
     ['new-nombre','new-apellido','new-user','new-pass'].forEach(id => document.getElementById(id).value = '');
     loadUsersList();
   } else { showToast('⚠ ' + res.msg); }
+}
+
+async function publicarHorarioOficial() {
+  const anio = document.getElementById('hor-anio-src').value;
+  const division = document.getElementById('hor-div-src').value;
+  const uidSrc = document.getElementById('hor-uid-src').value.trim();
+  const statusEl = document.getElementById('hor-oficial-status');
+  if (!anio || !division || !uidSrc) { showToast('⚠ Completá todos los campos'); return; }
+  statusEl.textContent = 'Cargando horario de ' + uidSrc + '...';
+  try {
+    // Get source user's horario
+    const snap = await get(ref(fbDb, `datos/${uidSrc}/horario`));
+    if (!snap.exists()) { statusEl.textContent = '⚠ El alumno no tiene horario cargado.'; return; }
+    const horario = snap.val();
+    // Save as official
+    const cursoKey = (anio + division).replace(/[^a-zA-Z0-9]/g,'_');
+    await set(ref(fbDb, `horarios_oficiales/${cursoKey}`), {
+      anio, division, fuenteUid: uidSrc, horario,
+      actualizadoAt: Date.now()
+    });
+    statusEl.innerHTML = '✅ Horario oficial de <strong>' + anio + ' "' + division + '"</strong> publicado (' + horario.length + ' slots). Los nuevos alumnos de este curso lo recibirán automáticamente.';
+    showToast('✅ Horario oficial publicado');
+  } catch(e) { statusEl.textContent = '⚠ Error: ' + e.message; }
 }
 
 async function loadUsersList() {
