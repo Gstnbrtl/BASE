@@ -497,6 +497,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC5YOMJ9RiiSgVxQYeegmmkR-wEUs11_F8",
@@ -516,6 +517,33 @@ function setSS(state, label) {
   if(d) d.className='sdot '+state;
   if(l) l.textContent=label;
 }
+
+const messaging = getMessaging(fbApp);
+const VAPID_KEY = 'BIDcWdGLIFLf_G-RKQ1mEF4djCEuPiVM002K6b9YoHJ8lFXhP9g99JGZ2JJM4SCl77cp-zV7ZXkS89mOqMm3Jlk';
+
+window.fbRequestNotifPermission = async function(uid) {
+  try {
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') return;
+    const token = await getToken(messaging, { vapidKey: VAPID_KEY });
+    if (token) {
+      // Guardar token del dispositivo en Firebase
+      await set(ref(fbDb, `tokens/${uid}/${btoa(token).slice(0,20)}`), {
+        token, uid, updatedAt: Date.now()
+      });
+      console.log('FCM token guardado');
+    }
+  } catch(e) { console.log('Notificaciones no disponibles:', e.message); }
+};
+
+// Notificación cuando la app está en primer plano
+onMessage(messaging, (payload) => {
+  const {title, body} = payload.notification || {};
+  if(title) {
+    const t = document.getElementById('toast');
+    if(t) { t.textContent = `🔔 ${title}: ${body||''}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 4000); }
+  }
+});
 
 window.fbLogin = async function(usuario, password) {
   try {
@@ -731,6 +759,10 @@ async function deleteUser(uid, nombre) {
 function startApp() {
   document.getElementById('app').classList.add('active');
   renderHome(); renderCalendar(); renderMaterias(); renderHorario(); renderNotas(); renderNotifs();
+  // Pedir permiso de notificaciones
+  if (currentUser && window.fbRequestNotifPermission) {
+    setTimeout(() => window.fbRequestNotifPermission(currentUser.uid), 2000);
+  }
 }
 
 function updateDate(){
