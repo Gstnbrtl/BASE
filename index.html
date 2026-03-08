@@ -1057,34 +1057,32 @@ const CMAP_P = {
 function renderHorarioGrid(){
   const wrap=document.getElementById('horario-grid-wrap');if(!wrap)return;
   const dias=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-  // Build header
-  let head='<div class="hg-head">';
-  dias.forEach(d=>{ head+=`<div class="hg-dh">${d.substring(0,3)}</div>`; });
-  head+='</div>';
-  // Build columns
-  let body='<div class="hg-body">';
+  // Build table header
+  let html='<div class="card" style="padding:14px;overflow-x:auto"><table class="hg-table"><thead><tr>';
+  dias.forEach(d=>{ html+=`<th>${d.substring(0,3).toUpperCase()}</th>`; });
+  html+='</tr></thead><tbody><tr>';
+  // Build one row with 5 cells (one per day)
   for(let dia=0;dia<5;dia++){
     const slots=db.horario.filter(h=>parseInt(h.dia)===dia);
     const merged=mergeSlots(slots);
-    body+=`<div class="hg-col">`;
+    html+='<td>';
     if(!merged.length){
-      body+=`<div class="hg-empty">—</div>`;
+      html+='<div class="hg-empty">—</div>';
     } else {
       merged.forEach(s=>{
         const mat=db.materias.find(m=>m.id===s.materiaId);
         const c=CMAP_P[mat?.color||'accent']||CMAP_P.accent;
-        const minH=46+(s.modulos-1)*20;
-        body+=`<div class="hg-block" style="background:${c};min-height:${minH}px">
-          <div class="hg-bn">${mat?mat.nombre:'?'}</div>
-          <div class="hg-bt">${s.inicio}–${s.fin}</div>
-          ${s.modulos>1?`<div class="hg-bm">${s.modulos} mód.</div>`:''}
+        html+=`<div class="hg-block" style="background:${c}">
+          <span class="hg-bn">${mat?mat.nombre:'?'}</span>
+          <span class="hg-bt">${s.inicio}–${s.fin}</span>
+          ${s.modulos>1?`<span class="hg-bm">${s.modulos} mód.</span>`:''}
         </div>`;
       });
     }
-    body+='</div>';
+    html+='</td>';
   }
-  body+='</div>';
-  wrap.innerHTML=`<div class="hg">${head}${body}</div>`;
+  html+='</tr></tbody></table></div>';
+  wrap.innerHTML=html;
 }
 
 function renderHorarioDay(){
