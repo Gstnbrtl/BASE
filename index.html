@@ -331,7 +331,7 @@
     </div>
     <div class="sgrid">
       <div class="sc c1"><div class="sn" id="s-mat">0</div><div class="sl">Materias</div></div>
-      <div class="sc c2"><div class="sn" id="s-tar">0</div><div class="sl">Tareas</div></div>
+      <div class="sc c2"><div class="sn" id="s-tar">0</div><div class="sl">Eventos</div></div>
       <div class="sc c3"><div class="sn" id="s-exam">0</div><div class="sl">Exámenes</div></div>
       <div class="sc c4"><div class="sn" id="s-prom">—</div><div class="sl">Promedio</div></div>
     </div>
@@ -723,7 +723,7 @@ function renderHome(){
   document.getElementById('av').textContent=currentUser.nombre[0].toUpperCase();
   const n0=new Date();n0.setHours(0,0,0,0);
   document.getElementById('s-mat').textContent=db.materias.length;
-  document.getElementById('s-tar').textContent=db.eventos.filter(e=>e.tipo==='tarea'&&new Date(e.fecha+'T12:00:00')>=n0).length;
+  document.getElementById('s-tar').textContent=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).length;
   document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&new Date(e.fecha+'T12:00:00')>=n0).length;
   let sum=0,cnt=0;
   db.materias.forEach(m=>m.notas.flat().filter(n=>n).forEach(n=>{sum+=n.valor;cnt++}));
@@ -737,10 +737,10 @@ function renderHome(){
     const c=m?CMAP[m.color]:CMAP.accent;
     return`<div class="crow"><div class="ct">${s.inicio}</div><div class="cd" style="background:${c}"></div><div class="cn">${m?m.nombre:'?'}</div><div class="cr">${s.aula||''}</div></div>`;
   }).join('');
-  const up=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,5);
+  const up=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,6);
   const uel=document.getElementById('upcoming');
   if(!up.length){uel.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:5px 0">No hay eventos próximos</div>`}
-  else{const ic={tarea:'📝',examen:'📋',evento:'📅',otro:'🔔'};
+  else{const ic={tarea:'📝',examen:'🚨',evento:'📅',otro:'🔔'};
     uel.innerHTML=up.map(e=>{
       const d=new Date(e.fecha+'T12:00:00'),df=Math.ceil((d-n0)/86400000);
       const ds=df===0?'Hoy':df===1?'Mañana':`${df} días`;
