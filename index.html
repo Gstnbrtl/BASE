@@ -853,10 +853,12 @@ function renderHome(){
   document.getElementById('gname').textContent=`${currentUser.nombre.toUpperCase()} ${currentUser.apellido.toUpperCase()}`;
   document.getElementById('gschool').textContent=`IPET N°258 · ${currentUser.anio} "${currentUser.division}" · Aeronáutica · FAA`;
   document.getElementById('av').textContent=currentUser.nombre[0].toUpperCase();
-  const n0=new Date();n0.setHours(0,0,0,0);
+  // Fecha hoy en formato YYYY-MM-DD usando hora local (sin UTC drift)
+  const _hoy = new Date();
+  const todayStr = `${_hoy.getFullYear()}-${String(_hoy.getMonth()+1).padStart(2,'0')}-${String(_hoy.getDate()).padStart(2,'0')}`;
   document.getElementById('s-mat').textContent=db.materias.length;
-  document.getElementById('s-tar').textContent=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).length;
-  document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&new Date(e.fecha+'T12:00:00')>=n0).length;
+  document.getElementById('s-tar').textContent=db.eventos.filter(e=>e.fecha>=todayStr).length;
+  document.getElementById('s-exam').textContent=db.eventos.filter(e=>e.tipo==='examen'&&e.fecha>=todayStr).length;
   let sum=0,cnt=0;
   db.materias.forEach(m=>(m.notas||[]).flat().filter(n=>n).forEach(n=>{sum+=n.valor;cnt++}));
   document.getElementById('s-prom').textContent=cnt?(sum/cnt).toFixed(1):'—';
@@ -869,12 +871,12 @@ function renderHome(){
     const c=m?CMAP[m.color]:CMAP.accent;
     return`<div class="crow"><div class="ct">${s.inicio}</div><div class="cd" style="background:${c}"></div><div class="cn">${m?m.nombre:'?'}</div><div class="cr">${s.aula||''}</div></div>`;
   }).join('');
-  const up=db.eventos.filter(e=>new Date(e.fecha+'T12:00:00')>=n0).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,6);
+  const up=db.eventos.filter(e=>e.fecha>=todayStr).sort((a,b)=>a.fecha.localeCompare(b.fecha)).slice(0,6);
   const uel=document.getElementById('upcoming');
   if(!up.length){uel.innerHTML=`<div style="color:var(--text3);font-size:12px;padding:5px 0">No hay eventos próximos</div>`}
   else{const ic={tarea:'📝',examen:'🚨',evento:'📅',otro:'🔔'};
     uel.innerHTML=up.map(e=>{
-      const d=new Date(e.fecha+'T12:00:00'),df=Math.ceil((d-n0)/86400000);
+      const df=e.fecha===todayStr?0:e.fecha===new Date(new Date().setDate(new Date().getDate()+1)).toISOString().split('T')[0]?1:Math.ceil((new Date(e.fecha+'T00:00:00')-new Date(todayStr+'T00:00:00'))/86400000);
       const ds=df===0?'Hoy':df===1?'Mañana':`${df} días`;
       return`<div class="crow"><div style="font-size:16px">${ic[e.tipo]||'📌'}</div><div style="flex:1"><div style="font-size:12px;font-weight:500">${e.titulo}</div><div style="font-size:9.5px;color:var(--text3)">${e.materia||''}</div></div><div style="font-size:10px;font-weight:700;font-family:var(--font-m);color:${df<=1?'var(--danger)':'var(--accent)'}">${ds}</div></div>`;
     }).join('');}
